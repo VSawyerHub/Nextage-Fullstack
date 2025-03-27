@@ -6,14 +6,6 @@ import gamesRoutes from './routes/IGDBgames';
 // Load environment variables
 dotenv.config();
 
-// Add this near the top of server.ts after dotenv.config()
-console.log('Environment check:', {
-    PORT: process.env.PORT,
-    IGDB_API_URL: process.env.IGDB_API_URL,
-    IGDB_CLIENT: process.env.IGDB_CLIENT ? 'Set' : 'Not set',
-    IGDB_SECRET: process.env.IGDB_SECRET ? 'Set' : 'Not set'
-});
-
 const app = express();
 const PORT = process.env.PORT ||3000;
 
