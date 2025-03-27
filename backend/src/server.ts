@@ -24,7 +24,6 @@ app.use(express.json());
 // Routes
 app.use('/api/games', gamesRoutes);
 
-// Add this to server.ts
 app.get('/api/test', (req, res) => {
     res.json({ status: 'ok', message: 'Test endpoint working' });
 });
@@ -35,7 +34,7 @@ app.get('/api', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, req: express.Request, res: express.Response) => {
     console.error('Unhandled error:', err.stack); // Include stack trace
     res.status(500).json({
         error: 'Something went wrong',
