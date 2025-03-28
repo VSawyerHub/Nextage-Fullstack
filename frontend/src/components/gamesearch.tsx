@@ -12,7 +12,7 @@ const GameSearch: React.FC = () => {
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!searchQuery.trim()) {
       setError('Please enter a search term');
       return;
@@ -22,7 +22,11 @@ const GameSearch: React.FC = () => {
       setLoading(true);
       setError(null);
       const results = await gamesService.searchGames(searchQuery);
-      setGames(results);
+      if ('error' in results) {
+        setError(results.error);
+      } else {
+        setGames(results);
+      }
       setSearched(true);
     } catch (err) {
       setError('Error searching for games. Please try again.');

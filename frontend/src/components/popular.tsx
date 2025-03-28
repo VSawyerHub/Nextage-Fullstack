@@ -11,10 +11,15 @@ const PopularGames: React.FC = () => {
   useEffect(() => {
     const fetchPopularGames = async () => {
       try {
+        await fetchPopularGames();
         setLoading(true);
         const popularGames = await gamesService.getPopularGames(12);
-        setGames(popularGames);
-        setError(null);
+        if ('error' in popularGames) {
+          setError(popularGames.error);
+        } else {
+          setGames(popularGames);
+          setError(null);
+        }
       } catch (err) {
         setError('Failed to load popular games. Please try again later.');
         console.error(err);
@@ -23,7 +28,6 @@ const PopularGames: React.FC = () => {
       }
     };
 
-    fetchPopularGames();
   }, []);
 
   if (loading) {
