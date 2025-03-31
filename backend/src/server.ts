@@ -3,7 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import gamesRoutes from './routes/IGDBgames';
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -29,7 +28,7 @@ app.get('/api', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response) => {
+app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('Unhandled error:', err.stack); // Include stack trace
     res.status(500).json({
         error: 'Something went wrong',

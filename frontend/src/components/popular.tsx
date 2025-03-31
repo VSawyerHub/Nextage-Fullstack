@@ -11,7 +11,6 @@ const PopularGames: React.FC = () => {
   useEffect(() => {
     const fetchPopularGames = async () => {
       try {
-        await fetchPopularGames();
         setLoading(true);
         const popularGames = await gamesService.getPopularGames(12);
         if ('error' in popularGames) {
@@ -27,6 +26,7 @@ const PopularGames: React.FC = () => {
         setLoading(false);
       }
     };
+    fetchPopularGames();
 
   }, []);
 

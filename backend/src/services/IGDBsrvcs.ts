@@ -10,9 +10,8 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                // IGDB uses its own query language
                 `search "${query}"; 
-        fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name; 
+        fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url; 
         limit ${limit};`,
                 { headers }
             );
@@ -31,7 +30,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name;
+                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url;
         where rating > 80;
         sort rating desc;
         limit ${limit};`,
@@ -52,7 +51,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name;
+                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url;
         where id = ${id};`,
                 {headers}
             );
