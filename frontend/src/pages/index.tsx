@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useState } from 'react';
 import PopularGames from '../components/popular';
 import GameSearch from '../components/gamesearch';
-import TestConnection from '../components/test';
 
 const Home: NextPage = () => {
     const [activeTab, setActiveTab] = useState<'popular' | 'search'>('popular');
@@ -48,11 +47,6 @@ const Home: NextPage = () => {
                 <div>
                     {activeTab === 'popular' && <PopularGames />}
                     {activeTab === 'search' && <GameSearch />}
-                </div>
-
-                {/* Added TestConnection component */}
-                <div className="mt-8">
-                    <TestConnection />
                 </div>
             </main>
 
