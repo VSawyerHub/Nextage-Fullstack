@@ -1,6 +1,7 @@
 export interface Game {
     id: number;
     name: string;
+    slug: string;
     cover?: {
         id: number;
         url: string;

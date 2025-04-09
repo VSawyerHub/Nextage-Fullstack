@@ -40,7 +40,6 @@ const PopularGames: React.FC = () => {
 
   return (
     <div className="mb-10">
-      <h2 className="text-2xl font-bold mb-6 text-white">Popular Games</h2>
       
       {games.length === 0 ? (
         <div className="p-10 text-center text-gray-400 bg-game-gray rounded-lg">No popular games found.</div>

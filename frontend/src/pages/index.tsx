@@ -1,53 +1,42 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useState } from 'react';
+import Image from 'next/image';
 import PopularGames from '../components/popular';
 import GameSearch from '../components/gamesearch';
 
 const Home: NextPage = () => {
-    const [activeTab, setActiveTab] = useState<'popular' | 'search'>('popular');
 
     return (
         <div className="min-h-screen">
             <Head>
-                <title>Game Database | Powered by IGDB</title>
+                <title>Nextage</title>
                 <meta name="description" content="Browse and search for video games using data from IGDB" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <header className="py-10 text-center">
-                <h1 className="text-4xl font-bold text-white">Game Database</h1>
-                <p className="text-lg text-gray-400 mt-2">Discover and explore video games from around the world</p>
+            <header className="py-6">
+                <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-8">
+                    <div className="w-24">
+                        <Image
+                            src="/logoNT.png"
+                            alt="NT Logo"
+                            width={100}
+                            height={100}
+                            objectFit="contain"
+                        />
+                    </div>
+                    <div className="flex-1 max-w-2xl">
+                        <GameSearch />
+                    </div>
+                </div>
             </header>
 
             <main className="max-w-7xl mx-auto px-4 pb-16">
                 <div className="flex mb-8 border-b border-game-light">
-                    <button
-                        className={`px-6 py-3 text-base font-medium transition-colors ${
-                            activeTab === 'popular'
-                                ? 'text-white border-b-2 border-game-blue'
-                                : 'text-gray-400 hover:text-white'
-                        }`}
-                        onClick={() => setActiveTab('popular')}
-                    >
-                        Popular Games
-                    </button>
-                    <button
-                        className={`px-6 py-3 text-base font-medium transition-colors ${
-                            activeTab === 'search'
-                                ? 'text-white border-b-2 border-game-blue'
-                                : 'text-gray-400 hover:text-white'
-                        }`}
-                        onClick={() => setActiveTab('search')}
-                    >
-                        Search Games
-                    </button>
+                    <PopularGames />
                 </div>
 
-                <div>
-                    {activeTab === 'popular' && <PopularGames />}
-                    {activeTab === 'search' && <GameSearch />}
-                </div>
+
             </main>
 
             <footer className="py-8 text-center text-gray-500 text-sm">
