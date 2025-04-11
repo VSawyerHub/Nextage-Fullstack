@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { igdbConfig } from '../config/IGDB';
-import { Game } from '../types/IGDBtypes';
+import { Game } from '../types/game';
 
 export class IGDBService {
     // Search for games based on a query string
@@ -11,7 +11,7 @@ export class IGDBService {
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
                 `search "${query}"; 
-        fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url; 
+        fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
         limit ${limit};`,
                 { headers }
             );
@@ -30,7 +30,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url;
+                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*;
         where rating > 80;
         sort rating desc;
         limit ${limit};`,
@@ -51,7 +51,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, screenshots.url;
+                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
         where id = ${id};`,
                 {headers}
             );
@@ -77,4 +77,24 @@ export class IGDBService {
         }
 
     }
+
+    static async getGameBySlug(slug: string): Promise<Game | null> {
+        try {
+            const headers = await igdbConfig.getHeaders();
+
+            const response = await axios.post(
+                `${igdbConfig.apiUrl}/games`,
+                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+        where slug = "${slug}";`,
+                {headers}
+            );
+
+            return response.data.length === 0 ? null : response.data[0];
+        } catch (error) {
+            console.error(`Error fetching game with slug ${slug}:`, error);
+            throw new Error('Failed to fetch game details');
+        }
+    }
+
+
 }

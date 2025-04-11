@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
 import { Game } from '@/interfaces/game';
-import { gamesService } from "@/services/IGDB/games";
+import { gamesService } from "@/services/IGDB/game";
 
 interface GameDetailProps {
   game: Game | null;
@@ -158,36 +158,6 @@ const GameDetail: NextPage<GameDetailProps> = ({ game, error }) => {
             </div>
           </div>
         )}
-
-        {game.similar_games && game.similar_games.length > 0 && (
-          <div className="mt-10">
-            <h3 className="text-2xl font-semibold mb-5 text-white">Similar Games</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-              {game.similar_games.slice(0, 5).map((similarGame, index) => (
-                <div 
-                  key={index} 
-                  className="bg-game-gray rounded-lg overflow-hidden shadow-md cursor-pointer transition-transform hover:translate-y-[-5px]"
-                  onClick={() => router.push(`/games/${similarGame.id}`)}
-                >
-                  {similarGame.cover?.url ? (
-                    <Image 
-                      src={formatImageUrl(similarGame.cover.url)} 
-                      alt={similarGame.name}
-                      width={180} 
-                      height={240} 
-                      className="w-full h-auto"
-                    />
-                  ) : (
-                    <div className="w-full h-[240px] bg-game-light flex items-center justify-center text-gray-400 text-sm">
-                    No image
-                  </div>
-                )}
-                <h4 className="p-3 text-base overflow-hidden whitespace-nowrap overflow-ellipsis">{similarGame.name}</h4>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   </>
  );

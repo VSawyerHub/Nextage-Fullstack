@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Game } from '@/interfaces/game';
-import { gamesService } from "@/services/IGDB/games";
+import { gamesService } from "@/services/IGDB/game";
 import GameCard from '@/components/gamecard';
 import Image from 'next/image';
 import Link from 'next/link';

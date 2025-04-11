@@ -1,4 +1,4 @@
-import {Game} from "@/interfaces/game";
+import { Game } from "@/interfaces/game";
 import api from "@/api/config";
 
 export const gamesService = {

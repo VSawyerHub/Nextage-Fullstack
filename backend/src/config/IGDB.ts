@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IGDBAuthResponse } from '../types/IGDBtypes';
+import { IGDBAuthResponse } from '../types/game';
 import dotenv from 'dotenv';
 
 dotenv.config();

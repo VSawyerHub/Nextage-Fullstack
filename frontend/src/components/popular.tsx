@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Game } from '@/interfaces/game';
-import { gamesService } from "@/services/IGDB/games";
+import { gamesService } from "@/services/IGDB/game";
 import GameCard from './gamecard';
 
 const PopularGames: React.FC = () => {
