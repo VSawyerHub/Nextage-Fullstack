@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import { Game } from '@/interfaces/game';
 import { gamesService } from "@/services/IGDB/game";
 import GameCard from '@/components/gamecard';
-import Image from 'next/image';
-import Link from 'next/link';
 
 const GamesDatabase: React.FC = () => {
     const router = useRouter();
@@ -27,29 +26,36 @@ const GamesDatabase: React.FC = () => {
             setLoading(true);
             try {
                 let results;
-                if (search) {
-                    results = await gamesService.searchGames(search as string);
+                if (search && typeof search === 'string' && search.trim() !== '') {
+                    console.log('Searching for:', search); // Debug log
+                    results = await gamesService.searchGames(search);
                 } else {
-                    results = await gamesService.getPopularGames(20); // Fetch more games for database view
+                    console.log('Loading popular games'); // Debug log
+                    results = await gamesService.getPopularGames(20);
                 }
 
-                if ('error' in results) {
+                // Make sure you're checking the structure correctly
+                if (results && Array.isArray(results)) {
+                    setGames(results);
+                    setError(null);
+                } else if (results && 'error' in results) {
                     setError(results.error);
                     setGames([]);
                 } else {
-                    setGames(results);
-                    setError(null);
+                    setError('Unexpected response format');
+                    setGames([]);
                 }
             } catch (err) {
+                console.error('Error loading games:', err);
                 setError('Failed to load games. Please try again.');
-                console.error(err);
+                setGames([]);
             } finally {
                 setLoading(false);
             }
         };
 
         loadGames();
-    }, [search]);
+    }, [search, router.query.t]);
 
     // Apply filters (this would need to be implemented in your API)
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -70,35 +76,21 @@ const GamesDatabase: React.FC = () => {
             sort: 'popularity'
         });
         if (search) {
-            router.push('/games/database');
+            router.push('/database');
         }
     };
 
     return (
         <div className="min-h-screen">
             <Head>
-                <title>{search ? `Search: ${search}` : 'Games Database'} | Nextage</title>
+                <title>{`${search ? `Search: ${search}` : 'Games Database'} | Nextage`}</title>
                 <meta name="description" content="Browse our extensive video games database" />
             </Head>
 
             <header className="py-6 bg-game-gray border-b border-game-light">
                 <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-                    <Link href="/">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10">
-                                <Image
-                                    src="/logoNT.png"
-                                    alt="NT Logo"
-                                    width={40}
-                                    height={40}
-                                    objectFit="contain"
-                                />
-                            </div>
-                            <span className="text-xl font-semibold text-white">Nextage</span>
-                        </div>
-                    </Link>
 
-                    <form action="/games/database" method="get" className="flex max-w-md flex-1 mx-4">
+                    <form action="/database" method="get" className="flex max-w-md flex-1 mx-4">
                         <input
                             type="text"
                             name="search"
@@ -191,7 +183,9 @@ const GamesDatabase: React.FC = () => {
                 ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         {games.map((game) => (
-                            <GameCard key={game.id} game={game} />
+                            <Link key={game.id} href={`/games/${game.slug}`}>
+                            <GameCard game={game} />
+                            </Link>
                         ))}
                     </div>
                 )}

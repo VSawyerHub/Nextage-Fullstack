@@ -38,5 +38,15 @@ export const gamesService = {
             console.error(`Error fetching game with ID ${id}:`, error instanceof Error ? error.message : String(error));
             return null;
         }
+    },
+
+    getGameBySlug: async (slug: string): Promise<Game | null> => {
+        try {
+            const response = await api.get(`/api/games/${slug}`);
+            return response.data;
+        } catch (error: unknown) {
+            console.error(`Error fetching game with slug ${slug}:`, error instanceof Error ? error.message : String(error));
+            return null;
+        }
     }
 };

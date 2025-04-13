@@ -12,4 +12,7 @@ router.get('/popular', GamesController.getPopularGames);
 // GET /api/games/:id
 router.get('/:id', GamesController.getGameById);
 
+// GET /api/games/slug/:slug
+router.get('/:slug', GamesController.getGameById);
+
 export default router;

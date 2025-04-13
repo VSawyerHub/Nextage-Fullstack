@@ -164,36 +164,32 @@ const GameDetail: NextPage<GameDetailProps> = ({ game, error }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<GameDetailProps> = async (context) => {
-const { id } = context.params as { id: string };
+    const { slug } = context.params as { slug: string };
 
-try {
-  const gameId = parseInt(id);
-  if (isNaN(gameId)) {
-    return {
-      props: {
-        game: null,
-        error: 'Invalid game ID'
-      }
-    };
-  }
-  
-  const game = await gamesService.getGameById(gameId);
-  
-  return {
-    props: {
-      game
+    try {
+        const game = await gamesService.getGameBySlug(slug);
+
+        if (!game) {
+            return {
+                notFound: true,
+            };
+        }
+
+        return {
+            props: {
+                game,
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching game details:', error);
+
+        return {
+            props: {
+                game: null,
+                error: error instanceof Error ? error.message : 'Failed to load game details',
+            },
+        };
     }
-  };
-} catch (error) {
-  console.error('Error fetching game details:', error);
-  
-  return {
-    props: {
-      game: null,
-      error: error instanceof Error ? error.message : 'Failed to load game details'
-    }
-  };
-}
 };
 
 export default GameDetail;

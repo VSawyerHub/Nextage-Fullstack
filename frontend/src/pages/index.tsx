@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import PopularGames from '../components/popular';
 import GameSearch from '../components/gamesearch';
 
@@ -16,15 +15,6 @@ const Home: NextPage = () => {
 
             <header className="py-6">
                 <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-8">
-                    <div className="w-24">
-                        <Image
-                            src="/logoNT.png"
-                            alt="NT Logo"
-                            width={100}
-                            height={100}
-                            objectFit="contain"
-                        />
-                    </div>
                     <div className="flex-1 max-w-2xl">
                         <GameSearch />
                     </div>
