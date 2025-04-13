@@ -11,7 +11,7 @@ export class IGDBService {
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
                 `search "${query}"; 
-        fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+        fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
         limit ${limit};`,
                 { headers }
             );
@@ -30,7 +30,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*;
+                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*;
         where rating > 80;
         sort rating desc;
         limit ${limit};`,
@@ -51,7 +51,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
         where id = ${id};`,
                 {headers}
             );
@@ -84,7 +84,7 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
         where slug = "${slug}";`,
                 {headers}
             );

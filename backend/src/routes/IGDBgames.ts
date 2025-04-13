@@ -10,9 +10,9 @@ router.get('/search', GamesController.searchGames);
 router.get('/popular', GamesController.getPopularGames);
 
 // GET /api/games/:id
-router.get('/:id', GamesController.getGameById);
+router.get('/id/:id', GamesController.getGameById);
 
-// GET /api/games/slug/:slug
-router.get('/:slug', GamesController.getGameById);
+// GET /api/games/:slug
+router.get('/slug/:slug', GamesController.getGameBySlug);
 
 export default router;

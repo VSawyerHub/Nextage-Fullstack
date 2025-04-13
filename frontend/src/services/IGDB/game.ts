@@ -32,7 +32,7 @@ export const gamesService = {
 
     getGameById: async (id: number): Promise<Game | null> => {
         try {
-            const response = await api.get(`/api/games/${id}`);
+            const response = await api.get(`/api/games/id/${id}`);
             return response.data;
         } catch (error: unknown) {
             console.error(`Error fetching game with ID ${id}:`, error instanceof Error ? error.message : String(error));
@@ -42,7 +42,7 @@ export const gamesService = {
 
     getGameBySlug: async (slug: string): Promise<Game | null> => {
         try {
-            const response = await api.get(`/api/games/${slug}`);
+            const response = await api.get(`/api/games/slug/${slug}`);
             return response.data;
         } catch (error: unknown) {
             console.error(`Error fetching game with slug ${slug}:`, error instanceof Error ? error.message : String(error));

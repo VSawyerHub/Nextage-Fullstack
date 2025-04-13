@@ -21,7 +21,7 @@ const formatReleaseDate = (timestamp?: number) => {
 };
 return (
     <div className="rounded-lg overflow-hidden bg-game-gray transition-transform hover:translate-y-[-5px] shadow-md h-full flex flex-col">
-    <Link href={`/games/${game.id}`}>
+    <Link href={`/games/${game.slug}`}>
         <div className="relative w-full pt-[133%]">
         {game.cover?.url ? (
             <Image 
