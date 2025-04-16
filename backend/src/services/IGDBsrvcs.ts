@@ -4,18 +4,20 @@ import { Game } from '../types/game';
 
 export class IGDBService {
     // Search for games based on a query string
-    static async searchGames(query: string, limit: number = 10): Promise<Game[]> {
+    static async searchGames(query: string, limit: number = 50): Promise<Game[]> {
         try {
             const headers = await igdbConfig.getHeaders();
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
                 `search "${query}"; 
-        fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+        fields name, slug, cover.url, summary, rating, first_release_date, 
+            genres.*, game_type, game_modes.*, platforms.*, 
+            involved_companies.company.*, involved_companies.company.logo.url, 
+            screenshots.url, websites.*, themes.*, age_ratings.*; 
         limit ${limit};`,
                 { headers }
             );
-
             return response.data;
         } catch (error) {
             console.error('Error searching games:', error);
@@ -30,7 +32,10 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*;
+                `fields name, slug, cover.url, summary, rating, first_release_date, 
+            genres.*, game_type, game_modes.*, platforms.*, 
+            involved_companies.company.*, involved_companies.company.logo.url, 
+            screenshots.url, websites.*, themes.*, age_ratings.*;
         where rating > 80;
         sort rating desc;
         limit ${limit};`,
@@ -51,7 +56,10 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+                `fields name, slug, cover.url, summary, rating, first_release_date, 
+            genres.*, game_type, game_modes.*, platforms.*, 
+            involved_companies.company.*, involved_companies.company.logo.url, 
+            screenshots.url, websites.*, themes.*, age_ratings.*;
         where id = ${id};`,
                 {headers}
             );
@@ -84,7 +92,10 @@ export class IGDBService {
 
             const response = await axios.post(
                 `${igdbConfig.apiUrl}/games`,
-                `fields name, slug, cover.url, summary, rating, first_release_date, genres.name, platforms.name, involved_companies.company.*, screenshots.url, websites.*; 
+                `fields name, slug, cover.url, summary, rating, first_release_date, 
+            genres.*, game_type, game_modes.*, platforms.*, 
+            involved_companies.company.*, involved_companies.company.logo.url, 
+            screenshots.url, websites.*, themes.*, age_ratings.*;
         where slug = "${slug}";`,
                 {headers}
             );

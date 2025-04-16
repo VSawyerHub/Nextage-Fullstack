@@ -2,7 +2,7 @@ import { Game } from "@/interfaces/game";
 import api from "@/api/config";
 
 export const gamesService = {
-    searchGames: async (query: string, limit: number = 10): Promise<Game[] | { error: string }> => {
+    searchGames: async (query: string, limit: number = 50): Promise<Game[] | { error: string }> => {
         try {
             const response = await api.get(`/api/games/search`, {
                 params: {

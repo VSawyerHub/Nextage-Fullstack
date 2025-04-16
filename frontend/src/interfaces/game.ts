@@ -20,7 +20,7 @@ export interface Game {
     series?: Array<{ id: number; name: string }>;
     franchises?: Array<{ id: number; name: string }>;
     themes?: Array<{ id: number; name: string }>;
-    involved_companies?: { company: Company; }[];
+    involved_companies?:{ company: Company; }[];
     websites?: Website[];
 }
 
@@ -70,8 +70,4 @@ enum AgeRatingCategory{
     ACB = 7
 }
 
-export interface IGDBAuthResponse {
-    access_token: string;
-    expires_in: number;
-    token_type: string;
-}
+

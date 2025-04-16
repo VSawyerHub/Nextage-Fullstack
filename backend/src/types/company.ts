@@ -5,7 +5,9 @@ export interface Company {
     id: number;
     name: string;
     slug: string;
-    developed?: Game[]
+    developer?: boolean;
+    publisher?: boolean;
+    developed?: Game[];
     logo?: { id: number; url: string };
 }
 

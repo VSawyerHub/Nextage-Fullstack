@@ -1,8 +1,7 @@
-interface Website {
+export interface Website {
     game: number;
     url: string;
     website_type: number;
-
 }
 
 export interface WebsiteType {

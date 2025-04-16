@@ -1,3 +1,4 @@
+import { WebsiteTypeEnum } from '@/interfaces/website';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -96,6 +97,28 @@ const GameDetail: NextPage<GameDetailProps> = ({ game, error }) => {
                   </div>
                 </div>
               )}
+
+                {game.age_ratings && game.age_ratings.length > 0 && (
+                    <div className="mb-4">
+                        <span className="block font-semibold mb-1 text-gray-400">Age Ratings:</span>
+                        <div className="flex flex-wrap gap-2">
+                            {game.age_ratings.map((rating, index) => (
+                                <div key={index} className="bg-game-light px-3 py-1 rounded text-sm">
+                                    {rating.rating_cover_url ? (
+                                        <Image
+                                            src={rating.rating_cover_url}
+                                            width={40}
+                                            height={40}
+                                            alt="Age Rating"
+                                        />
+                                    ) : (
+                                        `Rating: ${rating.rating_category}`
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
   
               {game.first_release_date && (
                 <div className="mb-4">
@@ -129,6 +152,44 @@ const GameDetail: NextPage<GameDetailProps> = ({ game, error }) => {
                 </div>
               </div>
             )}
+                {game.game_modes && game.game_modes.length > 0 && (
+                    <div className="mb-4">
+                        <span className="block font-semibold mb-1 text-gray-400">Game Modes:</span>
+                        <div className="flex flex-wrap gap-2">
+                            {game.game_modes.map((mode, index) => (
+                                <span key={index} className="bg-game-light px-3 py-1 rounded text-sm">
+                            {mode.name}
+                              </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {game.themes && game.themes.length > 0 && (
+                    <div className="mb-4">
+                        <span className="block font-semibold mb-1 text-gray-400">Themes:</span>
+                        <div className="flex flex-wrap gap-2">
+                            {game.themes.map((theme, index) => (
+                                <span key={index} className="bg-game-light px-3 py-1 rounded text-sm">
+                            {theme.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {game.involved_companies && game.involved_companies.length > 0 && (
+                    <div className="mb-4">
+                        <span className="block font-semibold mb-1 text-gray-400">Publishers/Developers:</span>
+                        <div className="flex flex-wrap gap-2">
+                            {game.involved_companies.map((company, index) => (
+                                <div key={index} className="bg-game-light px-3 py-1 rounded text-sm">
+                                    {company.company.name}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
             {game.summary && (
               <div className="mt-6">
@@ -158,6 +219,33 @@ const GameDetail: NextPage<GameDetailProps> = ({ game, error }) => {
             </div>
           </div>
         )}
+
+            {game.websites && game.websites.length > 0 && (
+                <div className="mt-10">
+                    <h3 className="text-2xl font-semibold mb-5 text-white">Links</h3>
+                    <div className="flex flex-wrap gap-3">
+                        {game.websites.map((site, index) => {
+                            const websiteType = Object.entries(WebsiteTypeEnum)
+                                .find(([_, value]) => value === site.website_type)?.[0] || 'Link';
+
+                            return (
+                                <a
+                                    key={index}
+                                    href={site.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center bg-game-light hover:bg-game-blue transition-colors px-4 py-2 rounded"
+                                >
+                                    {websiteType === 'Official' && <span className="mr-2">🏠</span>}
+                                    {websiteType === 'Steam' && <span className="mr-2">🎮</span>}
+                                    {websiteType === 'YouTube' && <span className="mr-2">📺</span>}
+                                    {websiteType}
+                                </a>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
     </div>
   </>
  );
