@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IGDBService } from '../services/IGDBsrvcs';
+import { IGDBService, ListType } from '../services/IGDBsrvcs';
 
 export class GamesController {
     static async searchGames(req: Request, res: Response): Promise<void> {
@@ -21,16 +21,23 @@ export class GamesController {
         }
     }
 
-    static async getPopularGames(req: Request, res: Response): Promise<void> {
+    static async getGamesByListType(req: Request, res: Response): Promise<void> {
         try {
+            const { listType } = req.params;
             const { limit } = req.query;
             const limitNum = limit ? parseInt(limit as string) : 10;
 
-            const games = await IGDBService.getPopularGames(limitNum);
+            // Validate listType
+            if (!['recentlyReleased', 'mostAnticipated', 'upcoming'].includes(listType)) {
+                res.status(400).json({ error: 'Invalid list type' });
+                return;
+            }
+
+            const games = await IGDBService.getGames(listType as ListType, limitNum);
             res.json(games);
         } catch (error) {
-            console.error('Controller error fetching popular games:', error);
-            res.status(500).json({ error: 'Failed to fetch popular games' });
+            console.error(`Controller error fetching ${req.params.listType} games:`, error);
+            res.status(500).json({ error: `Failed to fetch ${req.params.listType} games` });
         }
     }
 

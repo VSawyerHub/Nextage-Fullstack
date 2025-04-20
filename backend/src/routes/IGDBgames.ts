@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/search', GamesController.searchGames);
 
 // GET /api/games/popular?limit=10
-router.get('/popular', GamesController.getPopularGames);
+router.get('/:listType', GamesController.getGamesByListType);
 
 // GET /api/games/:id
 router.get('/id/:id', GamesController.getGameById);

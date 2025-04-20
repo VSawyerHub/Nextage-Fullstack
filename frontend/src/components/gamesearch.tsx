@@ -1,5 +1,22 @@
 import React, {useEffect, useState} from 'react';
+import { Input } from 'pixel-retroui';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+const Search = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
+const Form = styled.form`
+  display: flex;
+  width: 100%;
+`;
 
 const GameSearch: React.FC = () => {
   const router = useRouter();
@@ -11,8 +28,8 @@ const GameSearch: React.FC = () => {
         }
     }, [router.query.search]);
     return (
-        <div className="w-full">
-        <form
+        <Search>
+        <Form
             onSubmit={(e) => {
               e.preventDefault();
               const formData = new FormData(e.currentTarget);
@@ -26,27 +43,25 @@ const GameSearch: React.FC = () => {
             }}
             className="flex max-w-md flex-1 mx-4"
         >
-          <input
-              type="text"
-              name="search"
-              defaultValue={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
-              maxLength={24}
-              placeholder="Search for games..."
-              className="flex-1 p-2 bg-game-light border-none rounded-l-md text-white focus:outline-none focus:ring-1 focus:ring-game-blue"
-          />
-          <button
-              type="submit"
-              className="bg-game-blue hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-r-md transition-colors"
-          >
-            Search
-          </button>
-        </form>
-      </div>
+            <Input
+                type="text"
+                name="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                bg="#d6d6d6"
+                textColor="#1a1a1a"
+                borderColor="#422424"
+                spellCheck="false"
+                maxLength={24}
+                placeholder="Search for games..."
+                className="w-full h-12 px-4 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-game-blue/50"
+                style={{
+                    fontSize: '20px',
+                    letterSpacing: '0.5px',
+                }}
+            />
+        </Form>
+        </Search>
   );
 };
 

@@ -1,16 +1,10 @@
 @import "tailwindcss";
 @import 'pixel-retroui/dist/index.css';
+@import 'pixel-retroui/dist/fonts.css';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-const retroTheme {
-  dark: '#1a1a1a';
-  text: '#ffffff';
-  textSecondary: '#a0a0a0';
-  textDisabled: '#505050',
 }
 
 @theme inline {

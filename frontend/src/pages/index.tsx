@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import PopularGames from '../components/popular';
+import Games from '../components/games';
 import GameSearch from '../components/gamesearch';
 
 const Home: NextPage = () => {
@@ -20,12 +20,21 @@ const Home: NextPage = () => {
                     </div>
                 </div>
             </header>
+            <main className="max-w-7xl mx-auto px-4">
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4">Recently Released</h2>
+                    <Games listType="recentlyReleased" limit={10} />
+                </section>
 
-            <main className="max-w-7xl mx-auto px-4 pb-16">
-                <div className="flex mb-8 border-b border-game-light">
-                    <PopularGames />
-                </div>
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4">Most Anticipated</h2>
+                    <Games listType="mostAnticipated" limit={10} />
+                </section>
 
+                <section>
+                    <h2 className="text-2xl font-bold mb-4">Upcoming</h2>
+                    <Games listType="upcoming" limit={10} />
+                </section>
 
             </main>
 

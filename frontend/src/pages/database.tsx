@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Game } from '@/interfaces/game';
-import { gamesService } from "@/services/IGDB/game";
+import { gamesService, ListType } from "@/services/IGDB/game";
 import GameCard from '@/components/gamecard';
 
 const GamesDatabase: React.FC = () => {
@@ -14,13 +14,14 @@ const GamesDatabase: React.FC = () => {
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [listType, setListType] = useState<ListType>('recentlyReleased');
     const [filters, setFilters] = useState({
         genre: '',
         platform: '',
         sort: 'popularity' // default sort
     });
 
-    // Load games based on search query or default to popular games
+    // Load games based on search query or list type
     useEffect(() => {
         const loadGames = async () => {
             setLoading(true);
@@ -30,8 +31,8 @@ const GamesDatabase: React.FC = () => {
                     console.log('Searching for:', search); // Debug log
                     results = await gamesService.searchGames(search);
                 } else {
-                    console.log('Loading popular games'); // Debug log
-                    results = await gamesService.getPopularGames(20);
+                    console.log(`Loading ${listType} games`); // Debug log
+                    results = await gamesService.getGames(listType, 20);
                 }
 
                 // Make sure you're checking the structure correctly
@@ -55,7 +56,7 @@ const GamesDatabase: React.FC = () => {
         };
 
         loadGames();
-    }, [search, router.query.t]);
+    }, [search, router.query.t, listType]);
 
     // Apply filters (this would need to be implemented in your API)
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,6 +69,11 @@ const GamesDatabase: React.FC = () => {
         // In a real implementation, you would call your API with these filters
     };
 
+    // Handle list type change
+    const handleListTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setListType(e.target.value as ListType);
+    };
+
     // Clear search and filters
     const handleClearFilters = () => {
         setFilters({
@@ -75,6 +81,7 @@ const GamesDatabase: React.FC = () => {
             platform: '',
             sort: 'popularity'
         });
+        setListType('recentlyReleased');
         if (search) {
             router.push('/database');
         }
@@ -89,7 +96,6 @@ const GamesDatabase: React.FC = () => {
 
             <header className="py-6 bg-game-gray border-b border-game-light">
                 <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-
                     <form action="/database" method="get" className="flex max-w-md flex-1 mx-4">
                         <input
                             type="text"
@@ -120,6 +126,17 @@ const GamesDatabase: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
+                        <select
+                            name="listType"
+                            value={listType}
+                            onChange={handleListTypeChange}
+                            className="bg-game-light text-white p-2 rounded-md border border-gray-700"
+                        >
+                            <option value="recentlyReleased">Recently Released</option>
+                            <option value="mostAnticipated">Most Anticipated</option>
+                            <option value="upcoming">Upcoming</option>
+                        </select>
+
                         <select
                             name="genre"
                             value={filters.genre}
@@ -184,7 +201,7 @@ const GamesDatabase: React.FC = () => {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         {games.map((game) => (
                             <Link key={game.id} href={`/games/${game.slug}`}>
-                            <GameCard game={game} />
+                                <GameCard game={game} />
                             </Link>
                         ))}
                     </div>

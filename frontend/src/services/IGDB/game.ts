@@ -1,6 +1,8 @@
 import { Game } from "@/interfaces/game";
 import api from "@/api/config";
 
+export type ListType = 'recentlyReleased' | 'mostAnticipated' | 'upcoming';
+
 export const gamesService = {
     searchGames: async (query: string, limit: number = 50): Promise<Game[] | { error: string }> => {
         try {
@@ -17,18 +19,17 @@ export const gamesService = {
         }
     },
 
-    getPopularGames: async (limit: number = 10): Promise<Game[] | { error: string }> => {
+    getGames: async (listType: ListType, limit: number = 10): Promise<Game[] | { error: string }> => {
         try {
-            const response = await api.get(`/api/games/popular`, {
+            const response = await api.get(`/api/games/${listType}`, {
                 params: { limit }
             });
             return response.data;
         } catch (error: unknown) {
-            console.error('Error fetching popular games:', error instanceof Error ? error.message : String(error));
+            console.error(`Error fetching ${listType} games:`, error instanceof Error ? error.message : String(error));
             return { error: error instanceof Error ? error.message : String(error) };
         }
     },
-
 
     getGameById: async (id: number): Promise<Game | null> => {
         try {

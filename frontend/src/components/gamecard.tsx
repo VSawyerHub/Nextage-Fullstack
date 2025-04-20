@@ -2,76 +2,54 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Game } from '@/interfaces/game';
-import { Card } from 'pixel-retroui';
 import styled from 'styled-components';
 
-// Styled components for the game card
-const StyledCard = styled(Card)`
+const CardContainer = styled.div`
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background-color: #161616;
   height: 100%;
-  transition: transform 0.2s ease;
-  
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   }
 `;
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 100%;
-  padding-top: 133%; /* Aspect ratio for game covers */
+  aspect-ratio: 3/4; /* Changed from 16/9 for game covers */
+  overflow: hidden;
 `;
 
-const GameImage = styled(Image)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const NoImage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const GameInfo = styled.div`
+  padding: 12px;
+  flex-grow: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1a1a1a;
-  color: #505050;
-  font-size: 14px;
+  flex-direction: column;
 `;
 
 const GameTitle = styled.h3`
-  padding: 12px;
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: #505050;
-`;
-
-const ReleaseDate = styled.p`
-  padding: 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
   margin-bottom: 4px;
-  font-size: 14px;
-  color: #505050;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
-const GenreContainer = styled.div`
-  padding: 0 12px 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-`;
-
-const GenreTag = styled.span`
-  font-size: 12px;
-  background-color: #1a1a1a;
-  color: #505050;
-  padding: 4px 8px;
-  border-radius: 4px;
+const GameMeta = styled.div`
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  margin-top: auto;
 `;
 
 interface GameCardProps {
@@ -79,51 +57,63 @@ interface GameCardProps {
 }
 
 const GameCard: React.FC<GameCardProps> = ({ game }) => {
-    // Format IGDB image URL to use HTTPS and appropriately sized images
-    const formatImageUrl = (url?: string) => {
-        if (!url) return '/placeholder-game.jpg';
-        return url.replace('//images.igdb.com', 'https://images.igdb.com').replace('t_thumb', 't_cover_big');
+    // Format release date
+    const formatReleaseDate = (timestamp?: number): string => {
+        if (!timestamp) return 'TBA';
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
     };
 
-    // Format release date
-    const formatReleaseDate = (timestamp?: number) => {
-        if (!timestamp) return 'Release date unknown';
-        return new Date(timestamp * 1000).toLocaleDateString();
+    // Get first 2 platforms for display
+    const displayPlatforms = game.platforms?.slice(0, 2) || [];
+    const hasMorePlatforms = game.platforms && game.platforms.length > 2;
+
+    // Fix protocol-relative URLs and use higher quality image
+    const formatImageUrl = (url?: string): string => {
+        if (!url) return '/images/placeholder-game.jpg';
+
+        // Convert protocol-relative URL to absolute URL
+        let formattedUrl = url.startsWith('//') ? `https:${url}` : url;
+
+        // Replace t_thumb with t_cover_big for higher resolution
+        return formattedUrl.replace('t_thumb', 't_cover_big');
     };
 
     return (
-        <Link href={`/games/${game.slug}`} passHref>
-            <StyledCard   bg="black"
-                          textColor="white"
-                          borderColor="black"
-                          shadowColor="black">
+        <Link href={`/games/${game.slug}`} style={{ display: 'block', height: '100%' }}>
+            <CardContainer>
                 <ImageContainer>
-                    {game.cover?.url ? (
-                        <GameImage
-                            src={formatImageUrl(game.cover.url)}
-                            alt={game.name}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                    ) : (
-                        <NoImage>No image available</NoImage>
-                    )}
+                    <Image
+                        src={formatImageUrl(game.cover?.url)}
+                        alt={game.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        style={{
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                        }}
+                    />
                 </ImageContainer>
 
-                <GameTitle>{game.name}</GameTitle>
-
-                {game.first_release_date && (
-                    <ReleaseDate>{formatReleaseDate(game.first_release_date)}</ReleaseDate>
-                )}
-
-                {game.genres && game.genres.length > 0 && (
-                    <GenreContainer>
-                        {game.genres.slice(0, 3).map((genre, index) => (
-                            <GenreTag key={index}>{genre.name}</GenreTag>
-                        ))}
-                    </GenreContainer>
-                )}
-            </StyledCard>
+                <GameInfo>
+                    <GameTitle>{game.name}</GameTitle>
+                    <GameMeta>
+                        {game.first_release_date && (
+                            <div>{formatReleaseDate(game.first_release_date)}</div>
+                        )}
+                        {displayPlatforms.length > 0 && (
+                            <div className="mt-1">
+                                {displayPlatforms.map(platform => platform.name).join(', ')}
+                                {hasMorePlatforms ? ' +' : ''}
+                            </div>
+                        )}
+                    </GameMeta>
+                </GameInfo>
+            </CardContainer>
         </Link>
     );
 };
