@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IGDBService, ListType } from '../services/IGDBsrvcs';
+import { IGDBService, ListType } from '../services/IGDB/IGDB';
 
 export class GamesController {
     static async searchGames(req: Request, res: Response): Promise<void> {
