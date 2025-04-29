@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { igdbConfig } from '../config/IGDB';
-import { Game } from '../types/game';
+import { igdbConfig } from '../../config/IGDB';
+import { Game } from '../../types/game';
 
 export type ListType = 'recentlyReleased' | 'mostAnticipated' | 'upcoming';
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { GamesController } from '../controller/IGDBcont';
+import { GamesController } from '../../controller/IGDBcont';
 
 const router = express.Router();
 
