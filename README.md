@@ -23,7 +23,7 @@
 
 - [About the Project](#about-the-project)
   * [Stack](#stack)
-- [Getting Started](#getting-started-locally)
+- [Getting Started Locally](#getting-started-locally)
   * [Prerequisites](#prerequisites)
   * [Run Locally](#run-locally)
 - [License](#license)
@@ -113,7 +113,7 @@
 </div>
 
 
-<!-- Getting Started -->
+<!-- Getting Started Locally -->
 ## 🚀 Getting Started Locally
 
 <!-- Prerequisites -->
@@ -146,6 +146,7 @@ Start the server
   concurrently --kill-others "cd backend && npm start" "cd frontend && npm start"
 ```
 
+<!-- Docker Setup -->
 ## 📦 Docker Setup (Optional)
 
 If you prefer using Docker for local development, especially for the database:
