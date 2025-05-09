@@ -25,7 +25,8 @@
   * [Stack](#stack)
 - [Getting Started Locally](#getting-started-locally)
   * [Prerequisites](#prerequisites)
-  * [Run Locally](#run-locally)
+  * [Installation Steps](#installation-steps)
+  * [Docker Setup](docker-setup)
 - [License](#license)
   
 
@@ -114,7 +115,7 @@
 
 
 <!-- Getting Started Locally -->
-## 🚀 Getting Started Locally
+## Getting Started Locally
 
 <!-- Prerequisites -->
 ### Prerequisites
@@ -125,6 +126,7 @@ Make sure you have the following tools installed:
 - **npm** or **yarn**
 - **Docker** (optional, for database containerization)
 
+<!-- Installation Steps -->
 ### Installation Steps
 
 1. **Clone the repository:**
@@ -140,14 +142,14 @@ Install dependencies
   npm run install:backend && npm run install:frontend
 ```
 
-Start the server
+2. **Start the server**
 
 ```bash
   concurrently --kill-others "cd backend && npm start" "cd frontend && npm start"
 ```
 
 <!-- Docker Setup -->
-## 📦 Docker Setup (Optional)
+## Docker Setup (Optional)
 
 If you prefer using Docker for local development, especially for the database:
 
