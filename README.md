@@ -8,13 +8,11 @@
 <!-- Badges -->
    
 <h4>
-    <a href="https://github.com/Louis3797/awesome-readme-template/">View Demo</a>
+    <a href="https://github.com/VSawyerHub/Nextage-Fullstack/">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template">Documentation</a>
+    <a href="https://github.com/VSawyerHub/Nextage-Fullstack/issues">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
+    <a href="https://github.com/VSawyerHub/Nextage-Fullstack/issues">Request Feature</a>
   </h4>
 </div>
 
@@ -29,7 +27,6 @@
 - [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Run Locally](#run-locally)
-  * [Code of Conduct](#code-of-conduct)
 - [License](#license)
   
 
@@ -45,7 +42,7 @@
         <table>
           <thead>
             <tr>
-              <th colspan="3" style="text-align:center">Badge Grouping</th>
+              <th colspan="3" style="text-align:center">FRONT-END</th>
             </tr>
             <tr>
               <th>Badge</th>
@@ -76,7 +73,7 @@
         <table>
           <thead>
             <tr>
-              <th colspan="3" style="text-align:center">Badge Grouping</th>
+              <th colspan="3" style="text-align:center">BACK-END</th>
             </tr>
             <tr>
               <th>Badge</th>
@@ -90,54 +87,12 @@
             </tr>
             <tr>
               <td>Content</td>
+              <td style="text-align:right"><a href="https://www.postgresql.org/">PostgreSQL</a></td>
+            </tr>  
+            <tr>
+              <td>Content</td>
               <td style="text-align:right"><a href="https://www.prisma.io/">Prisma</a></td>
             </tr>          
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table>
-          <thead>
-            <tr>
-              <th colspan="3" style="text-align:center">Badge Grouping</th>
-            </tr>
-            <tr>
-              <th>Badge</th>
-              <th style="text-align:center">Tool</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Content</td>
-              <td style="text-align:right"><a href="https://www.postgresql.org/">PostgreSQL</a></td>
-            </tr>
-            <tr>
-              <td>Content</td>
-              <td style="text-align:right"><a href="https://nextjs.org/">Next.js</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table>
-          <thead>
-            <tr>
-              <th colspan="3" style="text-align:center">Badge Grouping</th>
-            </tr>
-            <tr>
-              <th>Badge</th>
-              <th style="text-align:center">Tool</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Content</td>
-              <td style="text-align:right"><a href="https://www.docker.com/">Docker</a></td>
-            </tr>
-            <tr>
-              <td>Content</td>
-              <td style="text-align:right"><a href="https://nextjs.org/">Next.js</a></td>
-            </tr>
           </tbody>
         </table>
       </td>
@@ -145,6 +100,7 @@
   </table>
 </div>
 
+              
 <!-- Env Variables -->
 ### Environment Variables
 
@@ -187,11 +143,6 @@ Start the server
 ```bash
   concurrently --kill-others "cd backend && npm start" "cd frontend && npm start"
 ```
-
-<!-- Code of Conduct -->
-### Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
 
 
 <!-- License -->
