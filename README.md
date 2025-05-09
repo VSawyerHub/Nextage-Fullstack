@@ -23,12 +23,24 @@
 
 - [About the Project](#about-the-project)
   * [Stack](#stack)
-  * [Environment Variables](#environment-variables)
-- [Getting Started](#getting-started)
+- [Getting Started](#getting-started-locally)
   * [Prerequisites](#prerequisites)
   * [Run Locally](#run-locally)
 - [License](#license)
   
+
+# 🎮 Nextage-Fullstack
+
+## 📖 Description
+
+**Nextage-Fullstack** is a fullstack web application built to help gamers manage their video game collection and progress. With a clean interface and powerful features, users can:
+
+- **Game Catalog**: Organize and track all your owned and desired games.
+- **Backlog Management**: Maintain a to-play list to never forget what’s next.
+- **User Authentication**: Sign up and log in securely.
+- **Cross-Platform Game Tracking**: Sync and follow game data across different video game platforms.
+
+---
 
 <!-- About the Project -->
 ## About the Project
@@ -100,36 +112,26 @@
   </table>
 </div>
 
-              
-<!-- Env Variables -->
-### Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
 
 <!-- Getting Started -->
-## Getting Started
+## 🚀 Getting Started Locally
 
 <!-- Prerequisites -->
 ### Prerequisites
-[Click here to download Node.js](https://nodejs.org/pt/download)
 
-<!-- Run Locally -->
-### Run Locally
+Make sure you have the following tools installed:
 
-Clone the project
+- [Click here to download Node.js](https://nodejs.org/pt/download) (v18 or higher recommended) 
+- **npm** or **yarn**
+- **Docker** (optional, for database containerization)
 
-```bash
-  git clone https://github.com/VSawyerHub/Nextage-Fullstack.git
-```
+### Installation Steps
 
-Go to the project directory
+1. **Clone the repository:**
 
 ```bash
-  cd Nextage-Fullstack
+git clone https://github.com/VSawyerHub/Nextage-Fullstack.git
+cd Nextage-Fullstack
 ```
 
 Install dependencies
@@ -144,6 +146,27 @@ Start the server
   concurrently --kill-others "cd backend && npm start" "cd frontend && npm start"
 ```
 
+## 📦 Docker Setup (Optional)
+
+If you prefer using Docker for local development, especially for the database:
+
+Start containers with Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+Apply Prisma migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+Generate Prisma client:
+
+```bash
+npx prisma generate
+```
 
 <!-- License -->
 ## License
