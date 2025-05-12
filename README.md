@@ -34,7 +34,7 @@
 
 ## 📖 Description
 
-**Nextage-Fullstack** is a fullstack web application built to help gamers manage their video game collection and progress. With a clean interface and powerful features, users can:
+**Nextage** is a fullstack web application built to help gamers manage their video game collection and progress. With a clean interface and powerful features, users can:
 
 - **Game Catalog**: Organize and track all your owned and desired games.
 - **Backlog Management**: Maintain a to-play list to never forget what’s next.
