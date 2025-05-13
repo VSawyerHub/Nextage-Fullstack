@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// There's a syntax error in your .env file - the STEAM_API_KEY has a colon instead of an equals sign
 const steam = new SteamAPI(process.env.STEAM_API_KEY as string);
 
 export class SteamService {

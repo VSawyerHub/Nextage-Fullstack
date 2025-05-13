@@ -3,7 +3,7 @@ import { SteamService } from '../../services/Steam/Steam';
 
 const router = Router();
 
-// Endpoint para obter resumo do usuário
+// Endpoint to get user summary
 router.get('/user/:steamId', async (req: Request, res: Response) => {
     try {
         const { steamId } = req.params;
@@ -14,7 +14,7 @@ router.get('/user/:steamId', async (req: Request, res: Response) => {
     }
 });
 
-// Endpoint para obter jogos possuídos
+// Endpoint to get owned games
 router.get('/user/:steamId/games', async (req: Request, res: Response) => {
     try {
         const { steamId } = req.params;
@@ -25,7 +25,7 @@ router.get('/user/:steamId/games', async (req: Request, res: Response) => {
     }
 });
 
-// Endpoint para obter conquistas de um jogo
+// Endpoint to get achievements from a game
 router.get('/user/:steamId/game/:appId/achievements', async (req: Request, res: Response) => {
     try {
         const { steamId, appId } = req.params;
