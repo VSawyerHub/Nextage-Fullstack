@@ -61,14 +61,13 @@ const configureMiddleware = () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // Rate limiting middleware
+// Rate limiting middleware
     const limiter = rateLimit({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 100, // Limit each IP to 100 requests per windowMs
+        limit: 100,                    // Changed from 'max'
+        windowMs: 15 * 60 * 1000,      // This should still work in v7
         standardHeaders: true,
         legacyHeaders: false,
     });
-    app.use(limiter);
 };
 
 /**

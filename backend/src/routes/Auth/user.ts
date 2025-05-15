@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { generateAccessToken, generateRefreshToken, refreshAccessToken, authenticateToken } from '../../middleware/auth';
+import { generateAccessToken, generateRefreshToken, refreshAccessToken, authenticateToken, RefreshTokenError } from '../../middleware/auth';
 import rateLimit from 'express-rate-limit';
 import { check, validationResult } from 'express-validator';
 
@@ -166,10 +166,11 @@ router.post('/login', [
 
 // Apply rate limiter to routes
 const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 10, // 10 requests per windowMs
+    limit: 10,                     // Changed from 'max'
+    windowMs: 15 * 60 * 1000,      // This should still work in v7
     message: { message: 'Too many authentication attempts, please try again later' }
 });
+
 
 // Apply rate limiter to specific routes instead of using app directly
 router.use('/login', authLimiter);
@@ -188,9 +189,12 @@ router.post('/logout', authenticateToken, async (req: Request, res: Response) =>
             // Verify the token and get the payload (fix the type issue with the secret)
             const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as jwt.Secret) as JwtPayload;
 
-            // Find the token record in the database
-            const tokenRecord = await prisma.refreshToken.findUnique({
-                where: { token: refreshToken }
+            // Find the token record using the user ID from the token
+            const tokenRecord = await prisma.refreshToken.findFirst({
+                where: {
+                    token: refreshToken,
+                    userId: decoded.id
+                }
             });
 
             if (!tokenRecord) {
@@ -211,7 +215,6 @@ router.post('/logout', authenticateToken, async (req: Request, res: Response) =>
                 res.status(401).json({ message: 'Invalid refresh token' });
                 return;
             }
-            throw error; // Re-throw other errors to be caught by the outer try-catch
         }
     } catch (error) {
         console.error('Logout error:', error);
@@ -220,7 +223,6 @@ router.post('/logout', authenticateToken, async (req: Request, res: Response) =>
 });
 
 
-// Refresh token endpoint
 router.post('/refresh-token', async (req: Request, res: Response) => {
     const { refreshToken } = req.body;
 
@@ -234,7 +236,11 @@ router.post('/refresh-token', async (req: Request, res: Response) => {
         res.status(200).json({ accessToken: newAccessToken });
     } catch (error) {
         console.error('Token refresh error:', error);
-        res.status(401).json({ message: 'Invalid or expired refresh token' });
+        // Use specific error message from RefreshTokenError
+        const message = error instanceof RefreshTokenError
+            ? error.message
+            : 'Invalid or expired refresh token';
+        res.status(401).json({ message });
     }
 });
 
@@ -265,5 +271,4 @@ router.get('/me', authenticateToken, async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error fetching user profile' });
     }
 });
-
 export default router;

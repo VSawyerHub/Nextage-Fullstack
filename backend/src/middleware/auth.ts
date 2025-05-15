@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 enum AuthRole {
     USER = 'USER',
-    ADMIN = 'ADMIN'
 }
 
 interface JwtPayload {
@@ -82,22 +81,18 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     }
 };
 
-// Middleware to check if user is admin
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user) {
-        res.status(401).json({ message: 'Authentication required' });
-        return;
+// Define custom error types for token issues
+export class RefreshTokenError extends Error {
+    constructor(message: string, public originalError?: Error) {
+        super(message);
+        this.name = 'RefreshTokenError';
+
+        if (originalError) {
+            this.stack = originalError.stack;
+        }
     }
+}
 
-    if (req.user.role !== AuthRole.ADMIN) {
-        res.status(403).json({ message: 'Admin privileges required' });
-        return;
-    }
-
-    next();
-};
-
-// Validate refresh token and return new access token
 export const refreshAccessToken = async (refreshToken: string) => {
     try {
         const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET as jwt.Secret) as JwtPayload;
@@ -108,7 +103,7 @@ export const refreshAccessToken = async (refreshToken: string) => {
         });
 
         if (!user) {
-            throw new Error('User not found');
+            return Promise.reject(new RefreshTokenError('User not found'));
         }
 
         // Generate new access token
@@ -118,8 +113,14 @@ export const refreshAccessToken = async (refreshToken: string) => {
             role: user.role
         });
     } catch (error) {
-        throw error;
+        if (error instanceof RefreshTokenError) {
+            throw error; // Already formatted error
+        } else if (error instanceof jwt.TokenExpiredError) {
+            throw new RefreshTokenError('Refresh token expired', error);
+        } else {
+            throw new RefreshTokenError('Invalid refresh token', error instanceof Error ? error : undefined);
+        }
     }
-};
+}
 
 export { AuthRole };
