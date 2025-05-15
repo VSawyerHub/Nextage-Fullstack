@@ -68,6 +68,8 @@ const configureMiddleware = () => {
         standardHeaders: true,
         legacyHeaders: false,
     });
+
+    app.use('/api', limiter);
 };
 
 /**
@@ -173,7 +175,7 @@ const gracefulShutdown = async () => {
     }
 };
 
-// Initialize and start the application
-initializeApp();
-
-export default app;
+initializeApp().catch(error => {
+    logger.error('Unhandled error during initialization:', error);
+    process.exit(1);
+});
