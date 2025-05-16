@@ -42,6 +42,8 @@ model User {
   hashedPassword String?          @db.VarChar(255)
   accounts       Account[]
   gameStatus     UserGameStatus[]
+  refreshTokens  RefreshToken[]   // Added this relation
+  userGames      UserGame[]       // Added this relation
 }
 
 model Account {
@@ -123,6 +125,7 @@ model UserGameStatus {
   createdAt DateTime @default(now()) @db.Timestamptz
   updatedAt DateTime @default(now()) @db.Timestamptz
   user      User     @relation(fields: [userId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id])
 
   @@unique([userId, gameId])
   @@index([userId, gameId], name: "idx_user_game_status")

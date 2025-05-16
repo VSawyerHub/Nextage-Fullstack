@@ -3,14 +3,14 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: auth_postgres
+    container_name: sql_postgres
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: auth
+      POSTGRES_USER: vsawyer
+      POSTGRES_PASSWORD: bubudina
+      POSTGRES_DB: sql
     volumes:
       - postgres_data:/var/lib/postgresql/data
     command: postgres -c 'postgres -c listen_addresses="*"'
