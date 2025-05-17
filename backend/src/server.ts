@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from './lib/prisma';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
@@ -14,16 +14,13 @@ import gamesRoutes from './routes/IGDB/IGDBgames';
 import userRoutes from './routes/Auth/user';
 import passResetRoutes from './routes/Auth/passReset';
 
-// Import service configurations
-import { configureSteamAuth } from './services/Auth/SteamAuth';
-
 // Load environment variables
 dotenv.config();
 
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
-const prisma = new PrismaClient();
+
 
 /**
  * Configure middleware
@@ -132,9 +129,6 @@ const startServer = () => {
  */
 const initializeApp = async () => {
     try {
-        // Configure authentication services
-        configureSteamAuth();
-
         // Setup middleware
         configureMiddleware();
 

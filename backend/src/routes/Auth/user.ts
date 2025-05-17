@@ -1,12 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../lib/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { generateAccessToken, generateRefreshToken, refreshAccessToken, authenticateToken, RefreshTokenError } from '../../middleware/auth';
 import rateLimit from 'express-rate-limit';
 import { check, validationResult } from 'express-validator';
 
-// Interface for JWT payload
 interface JwtPayload {
     id: string;
     email: string;
@@ -14,22 +13,21 @@ interface JwtPayload {
 }
 
 const router = Router();
-const prisma = new PrismaClient();
 
 // Register a new user
 router.post('/register', [
-    check('username') // Changed body to check
+    check('username')
         .isString()
         .trim()
         .isLength({ min: 3, max: 12 })
         .withMessage('Username must be between 3 and 12 characters')
         .matches(/^[a-zA-Z0-9_]+$/)
         .withMessage('Username can only contain letters, numbers and underscores'),
-    check('email') // Changed body to check
+    check('email')
         .isEmail()
         .normalizeEmail()
         .withMessage('Valid email is required'),
-    check('password') // Changed body to check
+    check('password')
         .isLength({ min: 8 })
         .withMessage('Password must be at least 8 characters long')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
@@ -271,4 +269,34 @@ router.get('/me', authenticateToken, async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error fetching user profile' });
     }
 });
+
+router.get('/profile/:username', async (req: Request, res: Response) => {
+    try {
+        const { username } = req.params;
+
+        const user = await prisma.user.findUnique({
+            where: { username },
+            select: {
+                id: true,
+                username: true,
+                email: false, // Don't expose email to public
+                name: true,
+                image: true,
+                role: true,
+                createdAt: true
+            }
+        });
+
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+
+        res.status(200).json({ user });
+    } catch (error) {
+        console.error('Profile fetch error:', error);
+        res.status(500).json({ message: 'Error fetching user profile' });
+    }
+});
+
 export default router;

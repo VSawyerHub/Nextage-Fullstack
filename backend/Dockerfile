@@ -1,25 +1,15 @@
-FROM ubuntu:latest
-LABEL authors="vito"
+FROM node:18-alpine
 
-ENTRYPOINT ["top", "-b"]
-
-# Use the official Node.js image
-FROM node:20-slim
-
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
 COPY . .
 
-# Expose the port your app runs on
-EXPOSE 3000
+RUN npm run build
 
-# Command to run your app
+EXPOSE 4000
+
 CMD ["npm", "start"]

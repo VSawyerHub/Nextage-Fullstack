@@ -1,10 +1,5 @@
-FROM ubuntu:latest
-LABEL authors="vito"
-
-ENTRYPOINT ["top", "-b"]
-
 # Use the official Node.js image
-FROM node:14
+FROM node:18-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -22,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port your app runs on
-EXPOSE 3000
+EXPOSE 5000
 
 # Command to run your app
 CMD ["npm", "start"]

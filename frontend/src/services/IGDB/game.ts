@@ -1,5 +1,5 @@
 import { Game } from "@/interfaces/game";
-import api from "@/api/config";
+import api from "@/app/api/config";
 
 export type ListType = 'recentlyReleased' | 'mostAnticipated' | 'upcoming';
 

@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma';
 
 enum AuthRole {
     USER = 'USER',
+    ADMIN = 'ADMIN'
 }
 
 interface JwtPayload {
