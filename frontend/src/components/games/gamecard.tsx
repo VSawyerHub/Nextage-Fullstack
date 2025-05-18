@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Game } from '@/interfaces/game';
 import styled from 'styled-components';
 
@@ -84,7 +83,6 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
     };
 
     return (
-        <Link href={`/games/${game.slug}`} style={{ display: 'block', height: '100%' }}>
             <CardContainer>
                 <ImageContainer>
                     <Image
@@ -114,7 +112,6 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     </GameMeta>
                 </GameInfo>
             </CardContainer>
-        </Link>
     );
 };
 
