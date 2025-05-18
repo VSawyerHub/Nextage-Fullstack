@@ -30,18 +30,13 @@ export const authOptions: NextAuthOptions = {
                         throw new Error(data.message || 'Authentication failed');
                     }
 
-                    // Store tokens securely
-                    if (typeof window !== 'undefined') {
-                        localStorage.setItem('accessToken', data.accessToken);
-                        localStorage.setItem('refreshToken', data.refreshToken);
-                    }
-
                     return {
                         id: data.user.id,
                         email: data.user.email,
                         name: data.user.username,
                         role: data.user.role,
-                        accessToken: data.accessToken
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken
                     };
                 } catch (error) {
                     console.error("Authentication error:", error);
@@ -60,7 +55,7 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token }) {
-            if (token) {
+            if (token && session.user) {
                 session.user.id = token.id as string;
                 session.user.role = token.role as string;
                 session.accessToken = token.accessToken as string;
@@ -73,9 +68,9 @@ export const authOptions: NextAuthOptions = {
     },
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     secret: process.env.NEXTAUTH_SECRET,
-}
+};
 
-export default NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

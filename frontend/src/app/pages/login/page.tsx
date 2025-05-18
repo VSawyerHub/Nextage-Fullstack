@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/authcontext';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -10,7 +10,6 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -19,10 +18,20 @@ export default function LoginPage() {
         setError('');
 
         try {
-            await login(email, password);
+            const result = await signIn('credentials', {
+                email,
+                password,
+                redirect: false
+            });
+
+            if (result?.error) {
+                setError(result.error);
+                return;
+            }
+
             router.push('/dashboard');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Login failed');
+            setError('Login failed');
         } finally {
             setLoading(false);
         }

@@ -13,6 +13,7 @@ import logger from './logger';
 import gamesRoutes from './routes/IGDB/IGDBgames';
 import userRoutes from './routes/Auth/user';
 import passResetRoutes from './routes/Auth/passReset';
+import profileRoutes from './routes/Auth/profile';
 
 // Load environment variables
 dotenv.config();
@@ -20,7 +21,6 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 /**
  * Configure middleware
@@ -77,24 +77,11 @@ const configureRoutes = () => {
     app.use('/api/games', gamesRoutes);
     app.use('/api/users', userRoutes);
     app.use('/api/auth', passResetRoutes);
+    app.use('/api/profile', profileRoutes);
 
-    // Health and test endpoints
-    app.get('/api/test', (_req, res) => {
-        res.json({ message: 'Backend is connected successfully!' });
-    });
-
-    app.get('/api', (_req, res) => {
-        res.json({ message: 'IGDB API Integration is running' });
-    });
-
-    // Database test endpoint (consider removing in production)
-    app.get('/test-db', async (_req: Request, res: Response) => {
-        try {
-            const users = await prisma.user.findMany();
-            res.json(users);
-        } catch (error) {
-            res.status(500).json({ error: 'Database connection failed' });
-        }
+    // Add a specific route for NextAuth to validate credentials
+    app.post('/api/auth/callback/credentials', async (req, res) => {
+        res.redirect(307, '/api/users/login');
     });
 };
 

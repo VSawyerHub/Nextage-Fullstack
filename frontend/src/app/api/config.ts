@@ -8,7 +8,6 @@ const api = axios.create({
     },
 });
 
-// Add auth token to requests
 api.interceptors.request.use(async (config) => {
     const session = await getSession();
     if (session?.accessToken) {

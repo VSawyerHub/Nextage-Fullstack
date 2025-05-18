@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import authService from '@/services/Register/auth';
 import { useAuth } from '@/contexts/authcontext';
-
 export default function ProfilePage() {
     const params = useParams();
     const username = params?.username as string;
@@ -16,19 +14,26 @@ export default function ProfilePage() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const data = await authService.getUserProfile(username);
-                setProfile(data);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/profile/${username}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile');
+                }
+                const data = await response.json();
+                setProfile(data.user);
             } catch (err) {
                 setError('Failed to load profile');
             } finally {
                 setLoading(false);
             }
         };
-
         if (username) {
             fetchProfile();
+        } else {
+            setError('Username is required');
+            setLoading(false);
         }
     }, [username]);
+
 
     if (loading) return <div className="p-8">Loading profile...</div>;
     if (error) return <div className="p-8 text-red-500">{error}</div>;

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/authcontext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -12,8 +11,8 @@ export default function RegisterPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { register } = useAuth();
     const router = useRouter();
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,10 +26,21 @@ export default function RegisterPage() {
         }
 
         try {
-            await register(username, email, password);
-            router.push('/login?registered=true');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Registration failed');
+            }
+
+            router.push('/login');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Registration failed');
+            setError(err.message || 'Registration failed');
         } finally {
             setLoading(false);
         }

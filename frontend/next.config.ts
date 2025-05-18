@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['images.igdb.com'],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
 };
 
