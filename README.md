@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="https://github.com/VSawyerHub/Nextage-Fullstack/blob/main/frontend/public/nextage.gif" width="850" height="260" />
+  <img src="https://github.com/VSawyerHub/Nextage-Fullstack/blob/temp-branch/frontend/public/nextage.gif" width="850" height="260" />
 
   
 <!-- Badges -->
