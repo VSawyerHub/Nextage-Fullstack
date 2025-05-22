@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Game } from '@/interfaces/game';
@@ -8,7 +8,7 @@ import { gamesService, ListType } from "@/services/IGDB/game";
 import GameCard from '@/components/games/gamecard';
 import Navbar from '@/components/navbar';
 
-export default function GamesDatabase() {
+function GamesDatabaseContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const search = searchParams.get('search');
@@ -23,7 +23,6 @@ export default function GamesDatabase() {
         sort: 'popularity'
     });
 
-    // Load games based on search query or list type
     useEffect(() => {
         const loadGames = async () => {
             setLoading(true);
@@ -199,5 +198,13 @@ export default function GamesDatabase() {
                 )}
             </main>
         </div>
+    );
+}
+
+export default function GamesDatabase() {
+    return (
+        <Suspense fallback={<div className="text-center p-10 text-game-blue">Loading...</div>}>
+            <GamesDatabaseContent />
+        </Suspense>
     );
 }
