@@ -85,7 +85,7 @@
           <tbody>
             <tr>
               <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=ts"></a></td>
-              <td style="text-align:right"><a href="https://www.typescriptlang.org/">Prisma</a></td>
+              <td style="text-align:right"><a href="https://www.typescriptlang.org/">Typescript</a></td>
             </tr> 
             <tr>
               <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=nodejs"></a></td>
