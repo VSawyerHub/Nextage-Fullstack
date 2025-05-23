@@ -25,7 +25,6 @@
 
 - [About the Project](#about-the-project)
   * [Stack](#stack)
-  * [Environment Variables](#environment-variables)
 - [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Run Locally](#run-locally)
@@ -137,15 +136,6 @@
     </tr>
   </table>
 </div>
-
-<!-- Env Variables -->
-### Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
 
 <!-- Getting Started -->
 ## Getting Started
