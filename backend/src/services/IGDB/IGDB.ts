@@ -46,7 +46,7 @@ export class IGDBService {
                     break;
 
                 case 'mostAnticipated':
-                    // Upcoming games with highest hype/rating
+                    // Upcoming games with highest hype
                     query = `fields name,cover.url,first_release_date,platforms.name,platforms.id,rating,slug;
                          where first_release_date > ${now};
                          sort hypes desc;

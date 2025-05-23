@@ -152,10 +152,25 @@ To run this project, you will need to add the following environment variables to
 
 <!-- Prerequisites -->
 ### Prerequisites
+
+- IGDB account (Twitch Developer Portal)
+- Client ID and Client Secret
 [Click here to download Node.js](https://nodejs.org/pt/download)
 - npm or yarn
 - PostgreSQL
 - Docker and Docker Compose (optional)
+
+## Step 1: Register for IGDB API Access
+1. Go to the [Twitch Developer Portal](https://dev.twitch.tv/console/apps)
+2. Sign in with your Twitch account (or create one)
+3. Click **Register Your Application**
+4. Fill in the required fields:
+  - **Name**: Your application name (e.g., "Nextage Gaming Platform")
+  - **OAuth Redirect URLs**: Your application's callback URL (e.g., `http://localhost:3000/api/auth/callback/twitch`)
+  - **Category**: Choose "Website Integration"
+
+5. Click **Create**
+6. Note your **Client ID** and generate a **Client Secret**
 
 <!-- Run Locally -->
 ### Run Locally
@@ -194,10 +209,10 @@ Start the server
 ## 📚 API Documentation
 ### Game API
 The backend provides several endpoints to interact with game data:
-- `GET /api/games/popular` - Get popular games
+- `GET /api/games/recentlyReleased` - Get new games
 - `GET /api/games/upcoming` - Get upcoming games
-- `GET /api/games/top-rated` - Get highest rated games
-- `GET /api/games/:id` - Get detailed information about a specific game
+- `GET /api/games/mostAnticipated` - Get highest hype games
+- `GET /api/games/:slug` - Get detailed information about a specific game
 
 ### User API
 Endpoints for user management:
