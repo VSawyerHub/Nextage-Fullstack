@@ -4,20 +4,28 @@ import { Game } from '@/interfaces/game';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  background-color: #161616;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    clip-path: polygon(
+            12px 0,
+            100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px
+    );
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #161616;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  }
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
 `;
 
 const ImageContainer = styled.div`
@@ -67,7 +75,6 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         });
     };
 
-    // Get first 2 platforms for display
     const displayPlatforms = game.platforms?.slice(0, 2) || [];
     const hasMorePlatforms = game.platforms && game.platforms.length > 2;
 

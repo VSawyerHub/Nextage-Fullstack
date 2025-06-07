@@ -83,28 +83,8 @@ function GamesDatabaseContent() {
     };
 
     return (
-        <div className="min-h-screen">
+        <div className="crt-bg min-h-screen">
             <Navbar />
-
-            <header className="py-6 bg-game-gray border-b border-game-light">
-                <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-                    <form action="/database" method="get" className="flex max-w-md flex-1 mx-4">
-                        <input
-                            type="text"
-                            name="search"
-                            defaultValue={search || ''}
-                            placeholder="Search for games..."
-                            className="flex-1 p-2 bg-game-light border-none rounded-l-md text-white focus:outline-none focus:ring-1 focus:ring-game-blue"
-                        />
-                        <button
-                            type="submit"
-                            className="bg-game-blue hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-r-md transition-colors"
-                        >
-                            Search
-                        </button>
-                    </form>
-                </div>
-            </header>
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 <div className="flex flex-col md:flex-row justify-between items-start mb-8">

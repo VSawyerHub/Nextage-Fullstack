@@ -2,16 +2,45 @@
 
 import Link from "next/link";
 import { useAuth } from "@/contexts/authcontext";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
     const { user, isAuthenticated, logout } = useAuth();
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/database?search=${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            router.push('/database');
+        }
+    };
 
     return (
         <nav className="bg-game-dark text-white p-4">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <Link href="/" className="text-xl font-bold">
                     Nextage
                 </Link>
+
+                <form onSubmit={handleSearch} className="flex w-full md:w-auto md:max-w-md">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search for games..."
+                        className="flex-1 p-2 bg-game-light border-none rounded-l-md text-white focus:outline-none focus:ring-1 focus:ring-game-blue"
+                    />
+                    <button
+                        type="submit"
+                        className="bg-game-blue hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-r-md transition-colors"
+                    >
+                        Search
+                    </button>
+                </form>
 
                 <div className="flex items-center space-x-4">
                     <Link href="/database" className="hover:text-game-blue">

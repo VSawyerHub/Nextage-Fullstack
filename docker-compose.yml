@@ -9,7 +9,7 @@ services:
     environment:
       - NEXT_PUBLIC_API_URL=http://backend:4000
       - NEXTAUTH_URL=http://frontend:5000
-      - NEXTAUTH_SECRET=your-nextauth-secret-key-should-be-at-least-32-chars
+      - NEXTAUTH_SECRET=9a21ba1b1fcbf38aa5465610f25c74c6bb31b8bd447693eae681d1ea4c5dcc32
     depends_on:
       - backend
     volumes:
@@ -43,7 +43,7 @@ services:
       - "5433:5432"
     environment:
       POSTGRES_USER: vsawyer
-      POSTGRES_PASSWORD: bubudina
+      POSTGRES_PASSWORD: 1234000
       POSTGRES_DB: sql
     volumes:
       - postgres_data:/var/lib/postgresql/data
