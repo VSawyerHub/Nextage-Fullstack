@@ -2,13 +2,21 @@
 
 import Games from '../components/games/games';
 import Navbar from "@/components/navbar";
+import Trending from "@/components/games/trending";
 
 export default function Home() {
+    const popTypes = [1, 2, 3, 5];
+
     return (
         <div className="crt-bg min-h-screen">
             <Navbar />
 
             <main className="max-w-7xl mx-auto px-4">
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4">Trending</h2>
+                    <Trending types={popTypes} limit={20} />
+                </section>
+
                 <section className="mb-10">
                     <h2 className="text-2xl font-bold mb-4">Recently Released</h2>
                     <Games listType="recentlyReleased" limit={10} />

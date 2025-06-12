@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Game } from '@/interfaces/game';
 import { gamesService, ListType } from "@/services/IGDB/game";
-import GameCard from '@/components/games/gamecard';
+import Gamepreview from '@/components/games/gamepreview';
 import Navbar from '@/components/navbar';
 
 function GamesDatabaseContent() {
@@ -104,6 +104,7 @@ function GamesDatabaseContent() {
                             onChange={handleListTypeChange}
                             className="bg-game-light text-white p-2 rounded-md border border-gray-700"
                         >
+                            <option value="thisMonth">This Month</option>
                             <option value="recentlyReleased">Recently Released</option>
                             <option value="mostAnticipated">Most Anticipated</option>
                             <option value="upcoming">Upcoming</option>
@@ -171,7 +172,7 @@ function GamesDatabaseContent() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         {games.map((game) => (
                             <Link key={game.id} href={`/games/${game.slug}`}>
-                                <GameCard game={game} />
+                                <Gamepreview game={game} />
                             </Link>
                         ))}
                     </div>

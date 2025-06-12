@@ -1,66 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { Game } from '@/interfaces/game';
-import { gamesService, ListType } from "@/services/IGDB/game";
-import GameCard from './gamecard';
+import { gamesService, ListType } from '@/services/IGDB/game';
+import Link from 'next/link';
+import Gamepreview from './gamepreview';
 
-interface GamesListProps {
+interface GamesProps {
   listType: ListType;
   limit?: number;
 }
 
-const GamesList: React.FC<GamesListProps> = ({
-                                               listType,
-                                               limit = 12
-                                             }) => {
+const Games: React.FC<GamesProps> = ({ listType, limit = 10 }) => {
   const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchGames = async () => {
+    const loadGames = async () => {
       try {
-        setLoading(true);
-        const gamesResult = await gamesService.getGames(listType, limit);
-        if ('error' in gamesResult) {
-          setError(gamesResult.error);
-        } else {
-          setGames(gamesResult);
-          setError(null);
+        const data = await gamesService.getGames(listType, limit);
+        if (Array.isArray(data)) {
+          setGames(data);
+        } else if (data && 'error' in data) {
+          setError(data.error);
         }
       } catch (err) {
-        setError(`Failed to load ${listType} games. Please try again later.`);
+        setError('Failed to load games');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchGames();
+    loadGames();
   }, [listType, limit]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-52 text-lg text-gray-400">Loading games...</div>;
+    return <div className="text-center py-10">Loading...</div>;
   }
 
   if (error) {
-    return <div className="p-4 bg-red-900/20 border border-red-900/30 rounded text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center py-10">{error}</div>;
   }
 
   return (
-      <div className="mb-10">
-        {games.length === 0 ? (
-            <div className="p-10 text-center text-gray-400 bg-game-gray rounded-lg">No games found.</div>
-        ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-              {games.map((game) => (
-                  <div key={game.id}>
-                    <GameCard game={game} />
-                  </div>
-              ))}
-            </div>
-        )}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {games.map((game) => (
+            <Link key={game.id} href={`/games/${game.slug}`}>
+              <Gamepreview game={game} />
+            </Link>
+        ))}
       </div>
   );
 };
 
-export default GamesList;
+export default Games;

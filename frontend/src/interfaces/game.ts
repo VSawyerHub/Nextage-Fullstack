@@ -15,7 +15,7 @@ export interface Game {
     game_type?: string;
     game_modes?: Array<{ name: string; slug: string }>;
     language_supports?: Array<{ id: number; name: string }>;
-    platforms?: Array<{ id: number; name: string }>;
+    platforms?: Array<{ id: number; name: string; platform_logo?: { id: number; url: string } }>;
     player_perspectives?: Array<{ id: number; name: string }>;
     series?: Array<{ id: number; name: string }>;
     franchises?: Array<{ id: number; name: string }>;

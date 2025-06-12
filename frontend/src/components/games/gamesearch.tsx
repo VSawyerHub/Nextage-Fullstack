@@ -2,35 +2,61 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-const Search = styled.div`
+const RetroSearch = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   margin: 0 auto;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: var(--background);
+  border: 4px double #19181c;
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #ededed, 0 8px 24px rgba(0,0,0,0.4);
+  font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
+  padding: 0.5rem 1rem;
 `;
 
-const Form = styled.form`
+const RetroForm = styled.form`
   display: flex;
   width: 100%;
 `;
 
-const SearchInput = styled.input`
+const RetroInput = styled.input`
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  background-color: #d6d6d6;
-  color: #1a1a1a;
-  border: 1px solid #422424;
-  border-radius: 8px 0 0 8px;
-  
+  height: 40px;
+  padding: 0 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #ededed;
+  color: #19181c;
+  border: 2px solid #19181c;
+  border-right: none;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  letter-spacing: 1px;
+  transition: border 0.1s;
   &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.5);
+    border-color: #0078d7;
+    background: #fff;
+  }
+`;
+
+const RetroButton = styled.button`
+  height: 40px;
+  padding: 0 18px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #0078d7;
+  color: #fff;
+  border: 2px solid #19181c;
+  border-left: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-shadow: 1px 1px #19181c;
+  transition: background 0.1s;
+  &:hover {
+    background: #00c6fb;
+    color: #19181c;
   }
 `;
 
@@ -45,21 +71,19 @@ const GameSearch: React.FC = () => {
     }, [router.query.search]);
 
     return (
-        <Search>
-            <Form
+        <RetroSearch className="my-6">
+            <RetroForm
                 onSubmit={(e) => {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const searchTerm = formData.get('search') as string;
-
-                    // Force a reload with the search parameter, even if it's the same
                     router.push({
                         pathname: '/database',
                         query: { search: searchTerm, t: Date.now() }
                     });
                 }}
             >
-                <SearchInput
+                <RetroInput
                     type="text"
                     name="search"
                     value={searchQuery}
@@ -68,8 +92,9 @@ const GameSearch: React.FC = () => {
                     maxLength={24}
                     placeholder="Search for games..."
                 />
-            </Form>
-        </Search>
+                <RetroButton type="submit">SEARCH</RetroButton>
+            </RetroForm>
+        </RetroSearch>
     );
 };
 

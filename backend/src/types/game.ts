@@ -15,7 +15,7 @@ export interface Game {
     game_type?: string;
     game_modes?: Array<{ name: string; slug: string }>;
     language_supports?: Array<{ id: number; name: string }>;
-    platforms?: Array<{ id: number; name: string }>;
+    platforms?: Array<{ id: number; name: string; platform_logo?: { id: number; url: string } }>;
     player_perspectives?: Array<{ id: number; name: string }>;
     series?: Array<{ id: number; name: string }>;
     franchises?: Array<{ id: number; name: string }>;
@@ -50,6 +50,17 @@ enum ReleaseRegion{
     Worldwide = 8,
     Korea = 9,
     Brazil = 10
+}
+
+enum PopularityType {
+    IGDBVisits = 1,
+    IGDBWantToPlay = 2,
+    IGDBPlaying = 3,
+    IGDBPlayed = 4,
+    Steam24hrPeakPlayers = 5,
+    SteamPositiveReviews = 6,
+    SteamNegativeReviews = 7,
+    SteamTotalReviews = 8
 }
 
 interface AgeRating {
