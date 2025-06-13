@@ -160,3 +160,5 @@ initializeApp().catch(error => {
     logger.error('Unhandled error during initialization:', error);
     process.exit(1);
 });
+
+export default app;
