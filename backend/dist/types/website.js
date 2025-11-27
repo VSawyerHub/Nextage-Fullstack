@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebsiteTypeEnum = void 0;
+var WebsiteTypeEnum;
+(function (WebsiteTypeEnum) {
+    WebsiteTypeEnum[WebsiteTypeEnum["Official"] = 1] = "Official";
+    WebsiteTypeEnum[WebsiteTypeEnum["Wikia"] = 2] = "Wikia";
+    WebsiteTypeEnum[WebsiteTypeEnum["Wikipedia"] = 3] = "Wikipedia";
+    WebsiteTypeEnum[WebsiteTypeEnum["Facebook"] = 4] = "Facebook";
+    WebsiteTypeEnum[WebsiteTypeEnum["Twitter"] = 5] = "Twitter";
+    WebsiteTypeEnum[WebsiteTypeEnum["Twitch"] = 6] = "Twitch";
+    WebsiteTypeEnum[WebsiteTypeEnum["Instagram"] = 8] = "Instagram";
+    WebsiteTypeEnum[WebsiteTypeEnum["YouTube"] = 9] = "YouTube";
+    WebsiteTypeEnum[WebsiteTypeEnum["iphone"] = 10] = "iphone";
+    WebsiteTypeEnum[WebsiteTypeEnum["ipad"] = 11] = "ipad";
+    WebsiteTypeEnum[WebsiteTypeEnum["android"] = 12] = "android";
+    WebsiteTypeEnum[WebsiteTypeEnum["steam"] = 13] = "steam";
+    WebsiteTypeEnum[WebsiteTypeEnum["reddit"] = 14] = "reddit";
+    WebsiteTypeEnum[WebsiteTypeEnum["itch"] = 15] = "itch";
+    WebsiteTypeEnum[WebsiteTypeEnum["epicgames"] = 16] = "epicgames";
+    WebsiteTypeEnum[WebsiteTypeEnum["gog"] = 17] = "gog";
+    WebsiteTypeEnum[WebsiteTypeEnum["discord"] = 18] = "discord";
+    WebsiteTypeEnum[WebsiteTypeEnum["bluesky"] = 19] = "bluesky";
+})(WebsiteTypeEnum || (exports.WebsiteTypeEnum = WebsiteTypeEnum = {}));

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build: ./frontend
@@ -23,7 +21,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DATABASE_URL=postgresql://vsawyer:1234000@postgres:5432/sql
+      - DATABASE_URL=postgresql://vuser:p4ssw0rld0@postgres:5432/sql
       - JWT_SECRET=c6c61bf8ab91e89b9f58718162769bf45aa206a1c97bdf4a0a49602da1106362
       - JWT_REFRESH_SECRET=56ea18b1fe1d337d14d19a840839d5f9d247e3837adfb04179dc1bacde8dacbd
       - PORT=4000
@@ -42,8 +40,8 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: vsawyer
-      POSTGRES_PASSWORD: 1234000
+      POSTGRES_USER: vuser
+      POSTGRES_PASSWORD: p4ssw0rld0
       POSTGRES_DB: sql
     volumes:
       - postgres_data:/var/lib/postgresql/data

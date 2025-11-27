@@ -499,3 +499,6 @@
 {"level":"info","message":"::1 - - [12/Jun/2025:01:13:35 +0000] \"GET /api/games/upcoming?limit=10 HTTP/1.1\" 304 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36\"","timestamp":"2025-06-12T01:13:35.335Z"}
 {"level":"info","message":"::1 - - [12/Jun/2025:01:13:36 +0000] \"GET /api/games/popularity/combined?types=1,2,3,5&limit=20 HTTP/1.1\" 304 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36\"","timestamp":"2025-06-12T01:13:36.185Z"}
 {"level":"info","message":"::1 - - [12/Jun/2025:01:13:38 +0000] \"GET /api/games/popularity/combined?types=1,2,3,5&limit=20 HTTP/1.1\" 304 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36\"","timestamp":"2025-06-12T01:13:38.925Z"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2025-11-26T20:19:58.174Z"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2025-11-27T12:12:09.160Z"}
+{"level":"info","message":"Shutting down server gracefully...","timestamp":"2025-11-27T12:26:30.305Z"}
