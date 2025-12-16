@@ -502,3 +502,14 @@
 {"level":"info","message":"Server running on port 4000","timestamp":"2025-11-26T20:19:58.174Z"}
 {"level":"info","message":"Server running on port 4000","timestamp":"2025-11-27T12:12:09.160Z"}
 {"level":"info","message":"Shutting down server gracefully...","timestamp":"2025-11-27T12:26:30.305Z"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2025-12-15T21:27:06.461Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:21:32:21 +0000] \"GET /api/games/mostAnticipated?limit=10 HTTP/1.1\" 200 5680 \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-12-15T21:32:21.696Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:21:32:21 +0000] \"GET /api/games/upcoming?limit=10 HTTP/1.1\" 200 4253 \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-12-15T21:32:21.892Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:21:32:22 +0000] \"GET /api/games/recentlyReleased?limit=10 HTTP/1.1\" 200 4524 \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-12-15T21:32:22.330Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:21:32:22 +0000] \"GET /api/games/popularity/combined?types=1,2,3,5&limit=20 HTTP/1.1\" 200 8994 \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-12-15T21:32:22.764Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:21:32:23 +0000] \"GET /api/games/popularity/combined?types=1,2,3,5&limit=20 HTTP/1.1\" 304 - \"http://localhost:5000/\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36\"","timestamp":"2025-12-15T21:32:23.944Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:22:13:50 +0000] \"GET /api/games/slug/minecraft-java-edition HTTP/1.1\" 200 10972 \"-\" \"axios/1.9.0\"","timestamp":"2025-12-15T22:13:50.136Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:22:13:50 +0000] \"GET /api/games/slug/minecraft-java-edition HTTP/1.1\" 200 10972 \"-\" \"axios/1.9.0\"","timestamp":"2025-12-15T22:13:50.152Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:22:13:50 +0000] \"GET /api/games/slug/minecraft-java-edition HTTP/1.1\" 200 10972 \"-\" \"axios/1.9.0\"","timestamp":"2025-12-15T22:13:50.185Z"}
+{"level":"info","message":"::1 - - [15/Dec/2025:22:13:50 +0000] \"GET /api/games/slug/minecraft-java-edition HTTP/1.1\" 200 10972 \"-\" \"axios/1.9.0\"","timestamp":"2025-12-15T22:13:50.196Z"}
+{"level":"info","message":"Shutting down server gracefully...","timestamp":"2025-12-15T22:49:34.819Z"}

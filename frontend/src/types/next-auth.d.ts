@@ -4,6 +4,7 @@ declare module "next-auth" {
     interface User {
         id: string;
         email: string;
+        username: string;
         name: string;
         role: string;
         accessToken: string;
@@ -13,15 +14,15 @@ declare module "next-auth" {
     interface Session {
         user: User;
         accessToken: string;
-        refreshToken?: string; // Add this if needed
+        refreshToken?: string;
     }
 }
 
-declare module "next-auth/jwt" {
+declare module "@auth/core/jwt" {
     interface JWT {
         id: string;
         role: string;
         accessToken: string;
-        refreshToken?: string; // Add this if you store refresh tokens
+        refreshToken?: string;
     }
 }

@@ -1,14 +1,13 @@
 'use client';
 
-import { AuthProvider } from '@/contexts/authcontext';
-import { SessionProvider } from 'next-auth/react';
-import '@/styles/globals.css';
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+import "@/styles/globals.css";
+import { AuthProvider } from "@/contexts/authcontext";
 
-export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth()
+  {
     return (
         <html lang="en">
         <body>

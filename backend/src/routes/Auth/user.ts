@@ -78,13 +78,13 @@ router.post('/login', [
 // Register route
 router.post('/register', [
     check('username')
-        .isLength({ min: 3, max: 30 })
-        .withMessage('Username must be between 3 and 30 characters')
+        .isLength({ min: 3, max: 15 })
+        .withMessage('Username must be between 3 and 15 characters')
         .matches(/^[a-zA-Z0-9_]+$/)
         .withMessage('Username can only contain letters, numbers and underscores'),
     check('email').isEmail().withMessage('Valid email is required'),
     check('password')
-        .isLength({ min: 6 })
+        .isLength({ min: 8 })
         .withMessage('Password must be at least 6 characters')
 ], async (req: Request, res: Response) => {
     const errors = validationResult(req);
