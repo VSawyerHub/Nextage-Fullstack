@@ -5,7 +5,6 @@ import { Game } from '../../types/game';
 export type ListType = 'recentlyReleased' | 'mostAnticipated' | 'upcoming';
 
 export class IGDBService {
-    // Search for games based on a query string
     static async searchGames(query: string, limit: number = 20, offset: number = 0): Promise<Game[]> {
         try {
             const headers = await igdbConfig.getHeaders();
@@ -119,7 +118,6 @@ static async getGames(listType: ListType, limit: number = 30): Promise<Game[]> {
         }
     }
 
-    // Get game details by ID
     static async getGameById(id: number): Promise<Game | null> {
         try {
             const headers = await igdbConfig.getHeaders();
