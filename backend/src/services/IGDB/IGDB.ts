@@ -29,39 +29,70 @@ export class IGDBService {
     }
 
     static async getTrending(types: number[], limitPerType: number = 20): Promise<Game[]> {
-        try {
-            const headers = await igdbConfig.getHeaders();
-            const allGameIds = new Set<number>();
-            let combinedGames: Game[] = [];
+        const headers = await igdbConfig.getHeaders();
 
+        const now = Math.floor(Date.now() / 1000);
+
+        // helper to query a time window and fill gameScores
+        const fetchWindow = async (fromTs: number, toTs: number, gameScores: Map<number, number>) => {
             for (const type of types) {
                 const popResponse = await axios.post(
                     `${igdbConfig.apiUrl}/popularity_primitives`,
-                    `fields game_id,value,popularity_type; sort value desc; limit ${limitPerType}; where popularity_type = ${type};`,
+                    `fields game_id,value,updated_at;
+                     where popularity_type = ${type}
+                       & updated_at >= ${fromTs}
+                       & updated_at <= ${toTs};
+                     sort updated_at desc;
+                     limit 500;`,
                     { headers }
                 );
-                const gameIds = popResponse.data.map((item: any) => item.game_id);
-                for (const id of gameIds) allGameIds.add(id);
+
+                for (const item of popResponse.data) {
+                    const gameId = item.game_id;
+
+                    // strong recency bias inside the window
+                    const recencyNorm = (item.updated_at - fromTs) / (toTs - fromTs + 1);
+                    const recencyFactor = 1 + recencyNorm * 1.5; // up to 2.5x boost for the newest
+
+                    const score = item.value * recencyFactor;
+                    gameScores.set(gameId, (gameScores.get(gameId) || 0) + score);
+                }
             }
+        };
 
-            if (allGameIds.size === 0) return [];
+        const gameScores = new Map<number, number>();
 
-            const gamesResponse = await axios.post(
-                `${igdbConfig.apiUrl}/games`,
-                `fields name,cover.url,first_release_date,platforms.name,platforms.id,platforms.platform_logo.url,rating,slug;
-             where id = (${[...allGameIds].join(',')});`,
-                { headers }
-            );
+        // 1\) try very recent: last 3 days
+        const threeDaysAgo = now - 3 * 24 * 60 * 60;
+        await fetchWindow(threeDaysAgo, now, gameScores);
 
-            combinedGames = gamesResponse.data;
-            return combinedGames;
-        } catch (error) {
-            console.error('Error fetching popular games:', error);
-            throw new Error('Failed to fetch popular games');
+        // 2\) if still empty, fall back to last 7 days
+        if (gameScores.size === 0) {
+            const sevenDaysAgo = now - 7 * 24 * 60 * 60;
+            await fetchWindow(sevenDaysAgo, now, gameScores);
         }
+
+        const topGameIds = Array.from(gameScores.entries())
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, limitPerType)
+            .map(([gameId]) => gameId);
+
+        if (topGameIds.length === 0) {
+            return [];
+        }
+
+        const gamesResponse = await axios.post(
+            `${igdbConfig.apiUrl}/games`,
+            `fields name,cover.url,first_release_date,platforms.name,platforms.id,platforms.platform_logo.url,rating,slug;
+             where id = (${topGameIds.join(',')}) & cover.url != null;`,
+            { headers }
+        );
+
+        const gamesMap = new Map(gamesResponse.data.map((game: Game) => [game.id, game]));
+        return topGameIds.map(id => gamesMap.get(id)).filter(Boolean) as Game[];
     }
 
-static async getGames(listType: ListType, limit: number = 30): Promise<Game[]> {
+    static async getGames(listType: ListType, limit: number = 30): Promise<Game[]> {
         try {
             const headers = await igdbConfig.getHeaders();
             const now = Math.floor(Date.now() / 1000); // Current time in UNIX timestamp
