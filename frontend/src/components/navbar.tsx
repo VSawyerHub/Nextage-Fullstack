@@ -1,8 +1,7 @@
 'use client';
 
-import Link from "next/link";
-import { useAuth } from "@/contexts/authcontext";
-import { useRouter } from "next/navigation";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -51,7 +50,7 @@ const RetroButton = styled.button`
   }
 `;
 
-const RetroLink = styled.a`
+const RetroLink = styled(Link)`
   background: #19181c;
   color: #fff;
   border: 2px solid #19181c;
@@ -68,92 +67,72 @@ const RetroLink = styled.a`
   }
 `;
 
-const RetroAction = styled.button`
-  background: #19181c;
-  color: #fff;
-  border: 2px solid #19181c;
-  border-radius: 0;
-  padding: 0.5rem 1rem;
-  font-family: inherit;
-  font-size: 1rem;
-  cursor: pointer;
-  text-shadow: 1px 1px #0a0a0a;
-  margin-left: 0.5rem;
-  transition: background 0.1s;
-  &:hover {
-    background: #b91c1c;
-    color: #fff;
-  }
-`;
+const Navbar: React.FC = () => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
 
-const Navbar = () => {
-    const { user, isAuthenticated, logout } = useAuth();
-    const router = useRouter();
-    const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/database?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push('/database');
+    }
+  };
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            router.push(`/database?search=${encodeURIComponent(searchQuery.trim())}`);
-        } else {
-            router.push('/database');
-        }
-    };
+  return (
+    <RetroNav>
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <RetroLink
+          href="/"
+          style={{
+            fontWeight: 'bold',
+            fontSize: '1.2rem',
+            background: 'transparent',
+            border: 'none',
+            color: '#0078d7',
+            textShadow: '1px 1px #19181c',
+          }}
+        >
+          Nextage
+        </RetroLink>
 
-    return (
-        <RetroNav>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <Link href="/" passHref legacyBehavior>
-                    <RetroLink style={{ fontWeight: 'bold', fontSize: '1.2rem', background: 'transparent', border: 'none', color: '#0078d7', textShadow: '1px 1px #19181c' }}>
-                        Nextage
-                    </RetroLink>
-                </Link>
+        <form onSubmit={handleSearch} className="flex w-full md:w-auto md:max-w-md">
+          <RetroInput
+            type="text"
+            placeholder="Search games..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <RetroButton type="submit">Search</RetroButton>
+        </form>
 
-                <form onSubmit={handleSearch} className="flex w-full md:w-auto md:max-w-md">
-                    <RetroInput
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search for games..."
-                    />
-                    <RetroButton type="submit">SEARCH</RetroButton>
-                </form>
+        <div className="flex items-center space-x-2">
+          <RetroLink href="/database">Database</RetroLink>
 
-                <div className="flex items-center space-x-2">
-                    <Link href="/database" passHref legacyBehavior>
-                        <RetroLink>Database</RetroLink>
-                    </Link>
-                    {isAuthenticated ? (
-                        <div className="flex items-center gap-2">
-                            <Link href="/dashboard" passHref legacyBehavior>
-                                <RetroLink>Dashboard</RetroLink>
-                            </Link>
-                            <Link href={`/profile/${user?.username}`} passHref legacyBehavior>
-                                <RetroLink>Profile</RetroLink>
-                            </Link>
-                            <span style={{ fontSize: '0.8rem', marginLeft: '0.5rem', color: '#13111c' }}>
-                                Hello, {user?.username}
-                            </span>
-                            <RetroAction onClick={logout}>Logout</RetroAction>
-                        </div>
-                    ) : (
-                        <>
-                            <Link href="/login" passHref legacyBehavior>
-                                <RetroLink style={{ background: 'linear-gradient(90deg, #13111c 0%, #00c6fb 100%)', color: 'white' }}>
-                                    Login
-                                </RetroLink>
-                            </Link>
-                            <Link href="/register" passHref legacyBehavior>
-                                <RetroLink style={{ background: '#16a34a', color: 'white' }}>
-                                    Register
-                                </RetroLink>
-                            </Link>
-                        </>
-                    )}
-                </div>
-            </div>
-        </RetroNav>
-    );
+          <RetroLink
+            href="/login"
+            style={{
+              background: 'linear-gradient(90deg, #13111c 0%, #00c6fb 100%)',
+              color: 'white',
+            }}
+          >
+            Login
+          </RetroLink>
+
+          <RetroLink
+            href="/register"
+            style={{
+              background: '#16a34a',
+              color: 'white',
+            }}
+          >
+            Register
+          </RetroLink>
+        </div>
+      </div>
+    </RetroNav>
+  );
 };
 
 export default Navbar;
