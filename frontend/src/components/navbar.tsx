@@ -109,26 +109,6 @@ const Navbar: React.FC = () => {
 
         <div className="flex items-center space-x-2">
           <RetroLink href="/database">Database</RetroLink>
-
-          <RetroLink
-            href="/login"
-            style={{
-              background: 'linear-gradient(90deg, #13111c 0%, #00c6fb 100%)',
-              color: 'white',
-            }}
-          >
-            Login
-          </RetroLink>
-
-          <RetroLink
-            href="/register"
-            style={{
-              background: '#16a34a',
-              color: 'white',
-            }}
-          >
-            Register
-          </RetroLink>
         </div>
       </div>
     </RetroNav>
