@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  turbopack: {
+      root: __dirname,
+    },
   compiler: {
     styledComponents: true,
   },
@@ -14,9 +17,6 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
