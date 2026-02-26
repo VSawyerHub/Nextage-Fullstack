@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/navbar';
+import api from '@/app/api/config';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -18,21 +19,16 @@ export default function LoginPage() {
         setError('');
 
         try {
-            const result = await signIn('credentials', {
-                email,
-                password,
-                redirect: false
-            });
+            const { data } = await api.post('/api/users/login', { email, password });
 
-            if (result?.error) {
-                setError(result.error);
-                return;
+            localStorage.setItem('accessToken', data.accessToken);
+            if (data.refreshToken) {
+                localStorage.setItem('refreshToken', data.refreshToken);
             }
 
-            // Redirect to homepage instead of dashboard
             router.push('/');
         } catch (err: any) {
-            setError('Login failed');
+            setError(err.response?.data?.message || 'Login failed');
         } finally {
             setLoading(false);
         }
