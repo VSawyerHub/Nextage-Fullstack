@@ -11,12 +11,5 @@
       "src": "/(.*)",
       "dest": "src/server.ts"
     }
-  ],
-  "env": {
-    "DATABASE_URL": "@database-url",
-    "TWITCH_CLIENT_ID": "@twitch-client-id",
-    "TWITCH_CLIENT_SECRET": "@twitch-client-secret",
-    "JWT_SECRET": "@jwt-secret",
-    "CORS_ORIGIN": "@cors-origin"
-  }
+  ]
 }
