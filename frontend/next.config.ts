@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
   turbopack: {
       root: __dirname,
     },
-  compiler: {
-    styledComponents: true,
-  },
   images: {
     remotePatterns: [
       {
