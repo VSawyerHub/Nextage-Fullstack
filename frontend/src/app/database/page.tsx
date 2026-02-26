@@ -23,40 +23,81 @@ function GamesDatabaseContent() {
         sort: 'popularity'
     });
 
+    // New pagination state
+    const [page, setPage] = useState<number>(0); // 0-based page index
+    const [pageSize] = useState<number>(20); // how many games per page
+    const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+    const [hasMore, setHasMore] = useState<boolean>(true);
+
+    // Reset list and pagination when search or listType changes
+    useEffect(() => {
+        setGames([]);
+        setPage(0);
+        setHasMore(true);
+    }, [search, searchParams.get('t'), listType]);
+
+    // Load games whenever search / listType / page changes
     useEffect(() => {
         const loadGames = async () => {
-            setLoading(true);
+            const isFirstPage = page === 0;
+            if (isFirstPage) {
+                setLoading(true);
+                setError(null);
+            } else {
+                setIsLoadingMore(true);
+            }
+
             try {
+                const offset = page * pageSize;
                 let results;
+
                 if (search && search.trim() !== '') {
-                    console.log('Searching for:', search);
-                    results = await gamesService.searchGames(search);
+                    // Use backend pagination: limit + offset
+                    results = await gamesService.searchGames(search, pageSize, offset);
                 } else {
-                    console.log(`Loading ${listType} games`);
-                    results = await gamesService.getGames(listType, 20);
+                    // For now, listType view still uses simple limit-based list
+                    // You could also add offset support to IGDBService.getGames later
+                    results = await gamesService.getGames(listType, pageSize);
                 }
 
                 if (results && Array.isArray(results)) {
-                    setGames(results);
+                    if (isFirstPage) {
+                        setGames(results);
+                    } else {
+                        setGames(prev => [...prev, ...results]);
+                    }
+
+                    // If we received fewer than pageSize items, there are no more pages
+                    setHasMore(results.length === pageSize);
                     setError(null);
                 } else if (results && 'error' in results) {
+                    if (isFirstPage) {
+                        setGames([]);
+                        setHasMore(false);
+                    }
                     setError(results.error);
-                    setGames([]);
                 } else {
+                    if (isFirstPage) {
+                        setGames([]);
+                        setHasMore(false);
+                    }
                     setError('Unexpected response format');
-                    setGames([]);
                 }
             } catch (err) {
                 console.error('Error loading games:', err);
+                if (page === 0) {
+                    setGames([]);
+                }
+                setHasMore(false);
                 setError('Failed to load games. Please try again.');
-                setGames([]);
             } finally {
                 setLoading(false);
+                setIsLoadingMore(false);
             }
         };
 
         loadGames();
-    }, [search, searchParams.get('t'), listType]);
+    }, [search, searchParams.get('t'), listType, page, pageSize]);
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -80,6 +121,11 @@ function GamesDatabaseContent() {
         if (search) {
             router.push('/database');
         }
+    };
+
+    const handleLoadMore = () => {
+        if (!hasMore || isLoadingMore) return;
+        setPage(prev => prev + 1);
     };
 
     return (
@@ -157,7 +203,7 @@ function GamesDatabaseContent() {
 
                 {error && <div className="p-4 mb-5 bg-red-900/20 border border-red-900/30 rounded-md text-red-400">{error}</div>}
 
-                {loading ? (
+                {loading && games.length === 0 ? (
                     <div className="text-center p-10">
                         <div className="text-game-blue font-semibold">Loading games...</div>
                     </div>
@@ -169,13 +215,28 @@ function GamesDatabaseContent() {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                        {games.map((game) => (
-                            <Link key={game.id} href={`/games/${game.slug}`}>
-                                <Gamepreview game={game} />
-                            </Link>
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                            {games.map((game) => (
+                                <Link key={game.id} href={`/games/${game.slug}`}>
+                                    <Gamepreview game={game} />
+                                </Link>
+                            ))}
+                        </div>
+
+                        {/* Load more for search results */}
+                        {hasMore && (
+                            <div className="flex justify-center mt-8">
+                                <button
+                                    onClick={handleLoadMore}
+                                    disabled={isLoadingMore}
+                                    className="px-6 py-2 bg-game-light text-white rounded-md border border-gray-700 hover:bg-game-gray disabled:opacity-50"
+                                >
+                                    {isLoadingMore ? 'Loading more...' : 'Load more'}
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </main>
         </div>

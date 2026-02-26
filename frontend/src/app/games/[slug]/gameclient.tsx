@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { Game } from '@/interfaces/game';
 import styled from 'styled-components';
 
-// Retro styled components for game detail page
 const RetroButton = styled.button`
   background: #19181c;
   color: #fff;

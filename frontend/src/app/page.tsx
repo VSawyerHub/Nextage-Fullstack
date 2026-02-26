@@ -3,6 +3,7 @@
 import Games from '../components/games/games';
 import Navbar from "@/components/navbar";
 import Trending from "@/components/games/trending";
+import AuthLayout from "@/contexts/authlayout";
 
 export default function Home() {
     const popTypes = [1, 2, 3, 5];
