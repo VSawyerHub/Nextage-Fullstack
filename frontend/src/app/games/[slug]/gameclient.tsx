@@ -76,6 +76,7 @@ export default function GameDetailClient({ game }: { game: Game }) {
                                 alt={game.name}
                                 width={264}
                                 height={374}
+                                loading="eager"
                                 style={{ width: '100%', height: 'auto', imageRendering: 'pixelated' }}
                             />
                         ) : (
@@ -167,6 +168,7 @@ export default function GameDetailClient({ game }: { game: Game }) {
                                         src={formatImageUrl(screenshot.url, 't_screenshot_big')}
                                         alt={`${game.name} screenshot ${index + 1}`}
                                         fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         style={{ objectFit: 'cover', imageRendering: 'pixelated' }}
                                     />
                                 </div>
