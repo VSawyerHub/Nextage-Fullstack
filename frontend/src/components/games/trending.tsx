@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styled, { keyframes } from 'styled-components';
 
 // Create animation with dynamic speed
-const createSlideAnimation = (duration: number) => keyframes`
+const createSlideAnimation = () => keyframes`
   0% {
     transform: translateX(0);
   }
@@ -22,10 +22,10 @@ const SliderContainer = styled.div`
 `;
 
 // Make animation speed responsive
-const SliderTrack = styled.div<{ duration: number }>`
+const SliderTrack = styled.div<{ $duration: number }>`
   display: flex;
   width: fit-content;
-  animation: ${props => createSlideAnimation(props.duration)} ${props => props.duration}s linear infinite;
+  animation: ${() => createSlideAnimation()} ${props => props.$duration}s linear infinite;
   &:hover {
     animation-play-state: paused;
   }
@@ -131,7 +131,7 @@ const Trending: React.FC<{ types: number[]; limit?: number }> = ({ types, limit 
 
     return (
         <SliderContainer>
-            <SliderTrack duration={animationDuration}>
+            <SliderTrack $duration={animationDuration}>
                 {duplicatedGames.map((game, index) => (
                     <Link key={`${game.id}-${index}`} href={`/games/${game.slug}`}>
                         <GameItem>
