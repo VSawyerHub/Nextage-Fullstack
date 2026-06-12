@@ -7,7 +7,7 @@ export default async function GameDetailPage({
   params: { slug: string };
 }) {
   // Extract slug directly from params as per Next.js App Router convention
-  const { slug } = params;
+  const { slug } = await params;
 
   if (!slug) {
     return (
